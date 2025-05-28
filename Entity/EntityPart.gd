@@ -1,5 +1,14 @@
 class_name EntityPart extends Object
 
-var title: String
+# ______________________________________________________________________________
+
+var id: String
 var type: Global.EntityPartType
-var sprite: Sprite2D
+var texture: Texture2D
+
+# ______________________________________________________________________________
+
+func _init(_id: String, _type: Global.EntityPartType, _texture: Texture2D) -> void:
+	id = _id
+	type = _type
+	texture = _texture

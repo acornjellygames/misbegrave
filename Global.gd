@@ -1,26 +1,34 @@
 extends Node
 
+# ______________________________________________________________________________
+
+const TILE_SIZE = 96
+
+const LIKE_POINTS = 2
+const HATE_POINTS = -1
+
+# ______________________________________________________________________________
+
 enum EntityType {
 	GHOST,
 	GRAVE,
 	SPECIAL
 }
 
-enum EntityRelationshipType {
-	ADJACENT,
-	SAME_ROW,
-	SAME_COLUMN,
-	SAME_ROW_OR_COLUMN
-}
-
 enum EntityPartType {
 	BASE,
-	EYES,
-	NOSE,
-	MOUTH,
-	HAIR,
-	ARMS,
 	BOTTOM,
-	HEADWEAR,
-	ACCESSORY
+	HEAD,
+	FACE
 }
+
+# ______________________________________________________________________________
+
+func create_2d_array(dimensions: Vector2i, fill: Variant = null) -> Array[Array]:
+	var array: Array[Array] = []
+	for x in range(dimensions.x):
+		var column = []
+		for y in range(dimensions.y):
+			column.append(fill) 
+		array.append(column)
+	return array
