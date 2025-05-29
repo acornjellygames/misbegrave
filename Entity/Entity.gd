@@ -2,10 +2,22 @@ class_name Entity extends Node2D
 
 # ______________________________________________________________________________
 
+signal s_start_hovering(entity: Entity)
+signal s_stop_hovering(entity: Entity)
+signal s_start_dragging(entity: Entity)
+signal s_stop_dragging(entity: Entity)
+
+# ______________________________________________________________________________
+
 var title: String
+var type: Global.EntityType
 var attributes: Array[EntityAttribute]
 var parts: Array[EntityPart]
 var grid_position: Vector2i
+
+var mouse_offset: Vector2 = Vector2.ZERO
+var is_hovering: bool = false
+var is_dragging: bool = false
 
 @onready var sprites = $Sprites
 @onready var debug = $Debug
@@ -14,9 +26,10 @@ var grid_position: Vector2i
 
 static var EntityScene = load("res://Entity/Entity.tscn")
 
-static func create(_title: String, _attributes: Array[EntityAttribute], _parts: Array[EntityPart], _grid_position: Vector2i = Vector2i(-1, -1)) -> Entity:
+static func create(_title: String, _type: Global.EntityType, _attributes: Array[EntityAttribute], _parts: Array[EntityPart], _grid_position: Vector2i = Vector2i(-1, -1)) -> Entity:
 	var entity = EntityScene.instantiate()
 	entity.title = _title
+	entity.type = _type
 	entity.attributes = _attributes
 	entity.parts = _parts
 	entity.grid_position = _grid_position
@@ -25,11 +38,30 @@ static func create(_title: String, _attributes: Array[EntityAttribute], _parts: 
 # ______________________________________________________________________________
 
 func _ready() -> void:
-	if (grid_position != Vector2i(-1, -1)):
-		set_position(grid_position * Global.TILE_SIZE)
-	debug.set_text("[" + str(grid_position.x) + ", " + str(grid_position.y) + "]\n(" + str(position.x) + ", " + str(grid_position.y) + ")")
 	render()
+	move(grid_position)
+	_update_debug()
 	
+func _input(event: InputEvent) -> void:
+	if (type != Global.EntityType.GHOST): 
+		return
+		
+	if (event is InputEventMouseButton):
+		if (event.is_pressed() && is_hovering):
+			is_dragging = true
+			s_start_dragging.emit(self)
+			_update_debug()
+		elif (event.is_released()):
+			is_dragging = false
+			s_stop_dragging.emit(self)
+			_update_debug()
+			
+	if (event is InputEventMouseMotion):
+		if (is_dragging):
+			var new_position = get_global_mouse_position() + mouse_offset
+			set_position(new_position)
+			_update_debug()
+
 # ______________________________________________________________________________
 
 func render() -> void:
@@ -41,7 +73,12 @@ func render() -> void:
 # ______________________________________________________________________________
 	
 func move(_grid_position: Vector2i) -> void:
-	self.grid_position = _grid_position
+	if (_grid_position != Vector2i(-1, -1)):
+		self.grid_position = _grid_position
+	var x = (_grid_position.x + 0.5) * Global.TILE_SIZE
+	var y = (_grid_position.y + 0.5) * Global.TILE_SIZE
+	set_position(Vector2(x, y))
+	_update_debug()
 
 # ______________________________________________________________________________
 	
@@ -93,3 +130,27 @@ func _get_attribute_score(target_attribute: EntityAttribute) -> int:
 	for attribute: EntityAttribute in attributes:
 		score += attribute.get_attribute_score(target_attribute)
 	return score
+
+# ______________________________________________________________________________
+
+func _on_interaction_area_mouse_entered() -> void:
+	is_hovering = true
+	s_start_hovering.emit(self)
+	debug.set_visible(true)
+	_update_debug()
+
+func _on_interaction_area_mouse_exited() -> void:
+	is_hovering = false
+	s_stop_hovering.emit(self)
+	debug.set_visible(false)
+	_update_debug()
+
+# ______________________________________________________________________________
+
+func _update_debug() -> void:
+	if (type == Global.EntityType.GHOST):
+		debug.set_text(title + "
+		[" + str(grid_position.x) + ", " + str(grid_position.y) + "] / (" + str(position.x) + ", " + str(position.y) + ")
+		drag: " + str(is_dragging))
+	else:
+		debug.set_text("[" + str(grid_position.x) + ", " + str(grid_position.y) + "]")

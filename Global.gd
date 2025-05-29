@@ -2,8 +2,7 @@ extends Node
 
 # ______________________________________________________________________________
 
-const TILE_SIZE = 96
-
+const TILE_SIZE = 128
 const LIKE_POINTS = 2
 const HATE_POINTS = -1
 
@@ -11,15 +10,16 @@ const HATE_POINTS = -1
 
 enum EntityType {
 	GHOST,
-	GRAVE,
-	SPECIAL
+	HOLE,
+	PROP,
 }
 
 enum EntityPartType {
 	BASE,
 	BOTTOM,
 	HEAD,
-	FACE
+	FACE,
+	MISC
 }
 
 # ______________________________________________________________________________

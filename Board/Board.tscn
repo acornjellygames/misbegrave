@@ -5,4 +5,10 @@
 [node name="Board" type="Node2D"]
 script = ExtResource("1_dd0lm")
 
-[node name="Entities" type="Node2D" parent="."]
+[node name="Props" type="Node2D" parent="."]
+
+[node name="Ghosts" type="Node2D" parent="."]
+
+[node name="Debug" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
