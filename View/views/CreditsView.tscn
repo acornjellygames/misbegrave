@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://7e60gwhe5si7"]
+
+[ext_resource type="PackedScene" uid="uid://doln80c6nuc6l" path="res://View/View.tscn" id="1_b2f03"]
+
+[node name="CreditsView" instance=ExtResource("1_b2f03")]
+
+[node name="Label" type="Label" parent="." index="0"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "CREDITS VIEW"

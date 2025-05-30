@@ -1,7 +1,13 @@
 # CHICKEN JOCKEY
 extends Node2D
 
-@onready var board = $Board
+# ______________________________________________________________________________
+
+@onready var view_container = $ViewContainer
+
+# ______________________________________________________________________________
 
 func _ready() -> void:
-	board.load_level(Levels.TEST)
+	State.view_container = view_container
+	Global.transition_view(Views.TITLE.instantiate())
+	

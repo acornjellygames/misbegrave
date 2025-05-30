@@ -38,10 +38,13 @@ func _load_ghosts(level: Level) -> void:
 	
 	var reserve_bounds = Global.TILE_SIZE * level.dimensions
 	for i in range(level.ghosts.size()):
-		ghosts.add_child(level.ghosts[i])
-		level.ghosts[i].set_position(Vector2(reserve_bounds.x + (Global.TILE_SIZE / 2.0), (i + 0.5) * Global.TILE_SIZE))
-		level.ghosts[i].s_start_dragging.connect(_on_ghost_active)
-		level.ghosts[i].s_stop_dragging.connect(_on_ghost_inactive)
+		var ghost = level.ghosts[i]
+		ghosts.add_child(ghost)
+		var new_position = Vector2(reserve_bounds.x + (Global.TILE_SIZE / 2.0), (i + 0.5) * Global.TILE_SIZE)
+		ghost.set_position(new_position)
+		ghost.last_position = new_position
+		ghost.s_start_dragging.connect(_on_ghost_active)
+		ghost.s_stop_dragging.connect(_on_ghost_inactive)
 		
 # ______________________________________________________________________________
 
@@ -55,14 +58,52 @@ func _on_hole_inactive(_hole: Entity) -> void:
 	_update_debug()
 
 func _on_ghost_active(ghost: Entity) -> void:
-	if (active_ghost == null):
-		active_ghost = ghost
-		_update_debug()
+	
+	active_ghost = ghost
+	_update_debug()
 
 func _on_ghost_inactive(ghost: Entity) -> void:
-	if (active_hole != null && active_ghost != null):
-		ghost_grid[active_hole.grid_position.x][active_hole.grid_position.y] = ghost
-		active_ghost.move(active_hole.grid_position)
+	if (active_ghost != null):
+		print("ghost: " + ghost.title + " / active_ghost: " + active_ghost.title)
+	else:
+		print("ghost: " + ghost.title)
+
+	if (active_hole == null):
+		return active_ghost.move_to_last_position()
+	
+	var grid_position = active_hole.grid_position
+	var blocking_ghost = ghost_grid[grid_position.x][grid_position.y]
+	if (blocking_ghost != null):
+		blocking_ghost.move_to_grid_position(active_ghost.grid_position, active_ghost.last_position)
+		ghost_grid[active_ghost.grid_position.x][active_ghost.grid_position.y] = blocking_ghost
+	else:
+		ghost_grid[active_ghost.grid_position.x][active_ghost.grid_position.y] = null
+	active_ghost.move_to_grid_position(grid_position)
+	ghost_grid[grid_position.x][grid_position.y] = active_ghost
+		
+	
+	#if (active_hole != null && active_ghost != null):
+		#if (active_ghost.grid_position != Vector2i(-1, -1)):
+			#ghost_grid[active_ghost.grid_position.x][active_ghost.grid_position.y] = null
+			#
+		#var blocking_ghost = ghost_grid[active_hole.grid_position.x][active_hole.grid_position.y]
+		#if (blocking_ghost != null):
+			#
+			#if (active_ghost.grid_position != Vector2i(-1, -1)):
+				#ghost_grid[active_ghost.grid_position.x][active_ghost.grid_position.y] = blocking_ghost
+			#else:
+				#ghost_grid[active_ghost.grid_position.x][active_ghost.grid_position.y] = null
+				#
+			#blocking_ghost.grid_position = active_ghost.grid_position
+			#blocking_ghost.set_position(active_ghost.last_position)
+		#
+		#
+		#ghost_grid[active_hole.grid_position.x][active_hole.grid_position.y] = ghost
+		#active_ghost.move(active_hole.grid_position)
+		#
+	#else:
+		#ghost.move_to_previous_position()
+		
 	active_ghost = null
 	_update_debug()
 	

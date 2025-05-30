@@ -10,8 +10,9 @@ func hole(x: int, y: int) -> Entity:
 var TEST = Level.new("TEST", "Test Level", Vector2i(6, 6), 
 	[
 		hole(0, 0),
-		hole(5, 3),
-		hole(1, 5),
+		hole(5, 0),
+		hole(5, 5),
+		hole(0, 5),
 	],[
 		Entity.create("Alice", Global.EntityType.GHOST,
 			[ EntityAttributes.SENSITIVE_NOSE ],
