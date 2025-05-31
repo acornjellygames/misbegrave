@@ -34,7 +34,8 @@ window/vsync/vsync_mode=0
 [file_customization]
 
 folder_colors={
-"res://assets/": "yellow"
+"res://assets/": "yellow",
+"res://themes/": "pink"
 }
 
 [rendering]

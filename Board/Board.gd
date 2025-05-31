@@ -2,6 +2,10 @@ class_name Board extends Node2D
 
 # ______________________________________________________________________________
 
+signal s_active_ghost_changed(ghost: Entity)
+
+# ______________________________________________________________________________
+
 var dimensions: Vector2i = Vector2i(-1, -1)
 var prop_grid: Array[Array] = [[]]
 var ghost_grid: Array[Array] = [[]]
@@ -93,8 +97,8 @@ func _on_hole_inactive(_hole: Entity) -> void:
 	_update_debug()
 
 func _on_ghost_active(ghost: Entity) -> void:
-	
 	active_ghost = ghost
+	s_active_ghost_changed.emit(ghost)
 	_update_debug()
 
 func _on_ghost_inactive(ghost: Entity) -> void:
@@ -117,6 +121,7 @@ func _on_ghost_inactive(ghost: Entity) -> void:
 	ghost_grid[grid_position.x][grid_position.y] = active_ghost
 	
 	active_ghost = null
+	s_active_ghost_changed.emit(null)
 	refresh_surrounding_entities()
 	_update_debug()
 	
