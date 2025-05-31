@@ -48,6 +48,41 @@ func _load_ghosts(level: Level) -> void:
 		
 # ______________________________________________________________________________
 
+func refresh_surrounding_entities() -> void:
+	for ghost: Entity in ghosts.get_children():
+		if (ghost.grid_position == Vector2i(-1, -1)): continue
+		var surrounding_entities = get_surrounding_entities(ghost.grid_position)
+		ghost.set_surrounding_entities(surrounding_entities)
+
+func get_surrounding_entities(grid_position: Vector2i) -> Array[Entity]:
+	var surrounding_entities: Array[Entity] = []
+	surrounding_entities.append_array(get_surrounding_entities_from_board(grid_position, prop_grid))
+	surrounding_entities.append_array(get_surrounding_entities_from_board(grid_position, ghost_grid))
+	return surrounding_entities
+		
+func get_surrounding_entities_from_board(grid_position: Vector2i, grid: Array[Array]) -> Array[Entity]: # OUGH
+	var surrounding_entities: Array[Entity] = []
+	if (grid_position.x > 0 && grid_position.y > 0): 
+		surrounding_entities.append(grid[grid_position.x - 1][grid_position.y - 1])
+	if (grid_position.y > 0): 
+		surrounding_entities.append(grid[grid_position.x][grid_position.y - 1])
+	if (grid_position.x < dimensions.x - 1 && grid_position.y > 0): 
+		surrounding_entities.append(grid[grid_position.x + 1][grid_position.y - 1])
+	if (grid_position.x > 0): 
+		surrounding_entities.append(grid[grid_position.x - 1][grid_position.y])
+	if (grid_position.x < dimensions.x - 1): 
+		surrounding_entities.append(grid[grid_position.x + 1][grid_position.y])
+	if (grid_position.x > 0 && grid_position.y < dimensions.y - 1): 
+		surrounding_entities.append(grid[grid_position.x - 1][grid_position.y + 1])
+	if (grid_position.y < dimensions.y - 1): 
+		surrounding_entities.append(grid[grid_position.x][grid_position.y + 1])
+	if (grid_position.x < dimensions.x - 1 && grid_position.y < dimensions.y - 1): 
+		surrounding_entities.append(grid[grid_position.x + 1][grid_position.y + 1])
+	surrounding_entities = surrounding_entities.filter(func (e): return e != null)
+	return surrounding_entities
+		
+# ______________________________________________________________________________
+
 func _on_hole_active(hole: Entity) -> void:
 	if (active_hole == null):
 		active_hole = hole
@@ -68,7 +103,7 @@ func _on_ghost_inactive(ghost: Entity) -> void:
 	else:
 		print("ghost: " + ghost.title)
 
-	if (active_hole == null):
+	if (active_hole == null || ghost_grid[active_hole.grid_position.x][active_hole.grid_position.y] == active_ghost):
 		return active_ghost.move_to_last_position()
 	
 	var grid_position = active_hole.grid_position
@@ -80,31 +115,9 @@ func _on_ghost_inactive(ghost: Entity) -> void:
 		ghost_grid[active_ghost.grid_position.x][active_ghost.grid_position.y] = null
 	active_ghost.move_to_grid_position(grid_position)
 	ghost_grid[grid_position.x][grid_position.y] = active_ghost
-		
 	
-	#if (active_hole != null && active_ghost != null):
-		#if (active_ghost.grid_position != Vector2i(-1, -1)):
-			#ghost_grid[active_ghost.grid_position.x][active_ghost.grid_position.y] = null
-			#
-		#var blocking_ghost = ghost_grid[active_hole.grid_position.x][active_hole.grid_position.y]
-		#if (blocking_ghost != null):
-			#
-			#if (active_ghost.grid_position != Vector2i(-1, -1)):
-				#ghost_grid[active_ghost.grid_position.x][active_ghost.grid_position.y] = blocking_ghost
-			#else:
-				#ghost_grid[active_ghost.grid_position.x][active_ghost.grid_position.y] = null
-				#
-			#blocking_ghost.grid_position = active_ghost.grid_position
-			#blocking_ghost.set_position(active_ghost.last_position)
-		#
-		#
-		#ghost_grid[active_hole.grid_position.x][active_hole.grid_position.y] = ghost
-		#active_ghost.move(active_hole.grid_position)
-		#
-	#else:
-		#ghost.move_to_previous_position()
-		
 	active_ghost = null
+	refresh_surrounding_entities()
 	_update_debug()
 	
 # ______________________________________________________________________________

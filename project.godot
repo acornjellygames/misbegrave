@@ -20,10 +20,10 @@ config/icon="res://icon.svg"
 
 State="*res://State.gd"
 Global="*res://Global.gd"
+Views="*res://View/Views.gd"
 EntityAttributes="*res://Entity/EntityAttributes.gd"
 EntityParts="*res://Entity/EntityParts.gd"
 Levels="*res://Level/Levels.gd"
-Views="*res://View/Views.gd"
 
 [display]
 

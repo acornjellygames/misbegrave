@@ -16,12 +16,15 @@ var parts: Array[EntityPart]
 var grid_position: Vector2i
 
 var parent: Node = null
+var surrounding_score: int = 0
 var last_position: Vector2 = Vector2.ZERO
 var is_hovering: bool = false
 var is_dragging: bool = false
+var surrounding_entities: Array[Entity] = []
 
 @onready var sprites = $Sprites
 @onready var debug = $Debug
+@onready var emote_container = $EmoteContainer
 
 # ______________________________________________________________________________
 
@@ -80,6 +83,9 @@ func move_to_position(_position: Vector2) -> void:
 	set_position(_position)
 	last_position = _position
 	_update_debug()
+	
+func move_to_last_position() -> void:
+	move_to_position(last_position)
 
 func move_to_grid_position(_grid_position: Vector2i, backup_position: Vector2 = Vector2.ZERO) -> void:
 	grid_position = _grid_position
@@ -89,36 +95,35 @@ func move_to_grid_position(_grid_position: Vector2i, backup_position: Vector2 = 
 		move_to_position((Vector2(_grid_position) + Vector2(0.5, 0.5)) * Global.TILE_SIZE)
 	_update_debug()
 
-func move_to_last_position() -> void:
-	move_to_position(last_position)
+# ______________________________________________________________________________
+
+func set_surrounding_entities(entities: Array[Entity]) -> void:
+	surrounding_entities = entities
+	calculate_surrounding_entities_score()
+	_update_debug()
 	
 # ______________________________________________________________________________
-	
-func get_surrounding_score(board: Board) -> int:
-	var surrounding_entities: Array[Entity] = get_surrounding_entities(board)
-	return get_entities_score(surrounding_entities)
-	
-func get_surrounding_entities(board: Board) -> Array[Entity]: # OUGH
-	var surrounding_entities: Array[Entity] = []
-	if (grid_position.x > 0 && grid_position.y > 0): 
-		surrounding_entities.append(board.grid[grid_position.x - 1][grid_position.y - 1])
-	if (grid_position.y > 0): 
-		surrounding_entities.append(board.grid[grid_position.x][grid_position.y - 1])
-	if (grid_position.x < board.dimensions.x - 1 && grid_position.y > 0): 
-		surrounding_entities.append(board.grid[grid_position.x + 1][grid_position.y - 1])
-	if (grid_position.x > 0): 
-		surrounding_entities.append(board.grid[grid_position.x - 1][grid_position.y])
-	if (grid_position.x < board.dimensions.x - 1): 
-		surrounding_entities.append(board.grid[grid_position.x + 1][grid_position.y])
-	if (grid_position.x > 0 && grid_position.y < board.dimensions.y - 1): 
-		surrounding_entities.append(board.grid[grid_position.x - 1][grid_position.y + 1])
-	if (grid_position.y < board.dimensions.y - 1): 
-		surrounding_entities.append(board.grid[grid_position.x][grid_position.y + 1])
-	if (grid_position.x < board.dimensions.x - 1 && grid_position.y < board.dimensions.y - 1): 
-		surrounding_entities.append(board.grid[grid_position.x + 1][grid_position.y + 1])
-	return surrounding_entities
+
+func render_emote() -> void:
+	if (emote_container.get_child_count() != 0):
+		for e: Emote in emote_container.get_children():
+			e.queue_free()
+			
+	var emote: Emote = null
+	if (surrounding_score > 0):
+		emote = Emote.create(preload("res://assets/indicator/love-icon.png"))
+	elif (surrounding_score < 0):
+		emote = Emote.create(preload("res://assets/indicator/angy-icon.png"))
+		
+	if (emote != null):
+		emote_container.add_child(emote)
+		print(emote.position)
 	
 # ______________________________________________________________________________
+
+func calculate_surrounding_entities_score() -> void:
+	surrounding_score = get_entities_score(surrounding_entities)
+	render_emote()
 	
 func get_entities_score(entities: Array[Entity]) -> int:
 	var score: int = 0
@@ -161,9 +166,13 @@ func _on_interaction_area_mouse_exited() -> void:
 
 func _update_debug() -> void:
 	if (type == Global.EntityType.GHOST):
-		debug.set_text(title + "
+		var text = title + " = " + str(surrounding_score) + "
 		[" + str(grid_position.x) + ", " + str(grid_position.y) + "] / (" + str(position.x) + ", " + str(position.y) + ")
 		drag: " + str(is_dragging) + "
-		<" + str(last_position.x) + ", " + str(last_position.y) + ">")
+		<" + str(last_position.x) + ", " + str(last_position.y) + ">
+		S: "
+		for s in surrounding_entities:
+			text += s.title + ", "
+		debug.set_text(text)
 	else:
 		debug.set_text("[" + str(grid_position.x) + ", " + str(grid_position.y) + "]")
