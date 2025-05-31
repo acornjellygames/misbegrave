@@ -5,8 +5,10 @@ extends Node
 const TILE_SIZE = 128
 const LIKE_POINTS = 2
 const HATE_POINTS = -1
+const POINTS_MULTIPLIER = 100
 const VIEW_TRANSITION_TIME_SEC = 0.5
 const BOARD_CONTAINER_SIZE = Vector2i(1280, 720)
+const EMOTE_DURATION_SEC = 2.5
 
 # ______________________________________________________________________________
 
