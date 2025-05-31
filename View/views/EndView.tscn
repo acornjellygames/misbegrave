@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://rn7og467emk3"]
+
+[ext_resource type="PackedScene" uid="uid://doln80c6nuc6l" path="res://View/View.tscn" id="1_ektgr"]
+
+[node name="EndView" instance=ExtResource("1_ektgr")]
+
+[node name="Label" type="Label" parent="." index="0"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "END VIEW"
