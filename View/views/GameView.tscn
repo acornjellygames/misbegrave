@@ -16,12 +16,18 @@ Label/colors/font_outline_color = Color(1, 1, 1, 1)
 Label/font_sizes/font_size = 30
 Label/fonts/font = ExtResource("5_n56sg")
 
-[node name="GameView" node_paths=PackedStringArray("board", "board_container", "ghost_name", "ghost_attributes") instance=ExtResource("1_c07vd")]
+[node name="GameView" node_paths=PackedStringArray("board", "board_container", "info", "ghost_name_label", "ghost_attributes_label", "scoring", "pair_label", "adding_to_score_label", "score_label", "scoring_timer") instance=ExtResource("1_c07vd")]
 script = ExtResource("2_d0yyp")
 board = NodePath("GameViewPadding/Content/BoardContainer/Board")
 board_container = NodePath("GameViewPadding/Content/BoardContainer")
-ghost_name = NodePath("GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Info/GhostName")
-ghost_attributes = NodePath("GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Info/GhostAttributes")
+info = NodePath("GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Info")
+ghost_name_label = NodePath("GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Info/GhostName")
+ghost_attributes_label = NodePath("GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Info/GhostAttributes")
+scoring = NodePath("GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Scoring")
+pair_label = NodePath("GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Scoring/Pair")
+adding_to_score_label = NodePath("GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Scoring/AddingToScore")
+score_label = NodePath("GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Scoring/Score")
+scoring_timer = NodePath("GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Scoring/ScoringTimer")
 
 [node name="GameViewPadding" type="MarginContainer" parent="." index="0"]
 custom_minimum_size = Vector2(1920, 1080)
@@ -100,6 +106,34 @@ asdasdas
 asdasdasd
 asdasdasd"
 
+[node name="Scoring" type="VBoxContainer" parent="GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding" index="1"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 36
+
+[node name="Pair" type="Label" parent="GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Scoring" index="0"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_5dn7j")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AddingToScore" type="Label" parent="GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Scoring" index="1"]
+layout_mode = 2
+size_flags_vertical = 8
+theme = SubResource("Theme_5dn7j")
+horizontal_alignment = 1
+
+[node name="Score" type="Label" parent="GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Scoring" index="2"]
+layout_mode = 2
+theme = ExtResource("5_5dn7j")
+text = "0"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="ScoringTimer" type="Timer" parent="GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Scoring" index="3"]
+wait_time = 1.5
+
 [node name="PrimaryButton" type="TextureButton" parent="GameViewPadding/Content/Info" index="2"]
 layout_mode = 2
 texture_normal = ExtResource("5_0fwqn")
@@ -119,3 +153,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [connection signal="s_active_ghost_changed" from="GameViewPadding/Content/BoardContainer/Board" to="." method="_on_active_ghost_changed"]
+[connection signal="s_attribute_pairs_changed" from="GameViewPadding/Content/BoardContainer/Board" to="." method="_on_attribute_pairs_changed"]
+[connection signal="timeout" from="GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Scoring/ScoringTimer" to="." method="_on_scoring_timer_timeout"]
+[connection signal="pressed" from="GameViewPadding/Content/Info/PrimaryButton" to="." method="_on_primary_button_pressed"]

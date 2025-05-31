@@ -3,6 +3,7 @@ class_name Board extends Node2D
 # ______________________________________________________________________________
 
 signal s_active_ghost_changed(ghost: Entity)
+signal s_attribute_pairs_changed(pairs: Array[EntityAttributePair])
 
 # ______________________________________________________________________________
 
@@ -11,6 +12,7 @@ var prop_grid: Array[Array] = [[]]
 var ghost_grid: Array[Array] = [[]]
 var active_ghost: Entity = null
 var active_hole: Entity = null
+var attribute_pairs: Array[EntityAttributePair] = []
 
 @onready var debug = $Debug
 @onready var props = $Props
@@ -85,6 +87,25 @@ func get_surrounding_entities_from_board(grid_position: Vector2i, grid: Array[Ar
 	surrounding_entities = surrounding_entities.filter(func (e): return e != null)
 	return surrounding_entities
 		
+# ______________________________________________________________________________
+
+func calculate_attribute_pairs() -> void:
+	attribute_pairs = []
+	for ghost: Entity in ghosts.get_children():
+		attribute_pairs.append_array(ghost.get_attribute_pairs_from_surrounding_entities())
+	s_attribute_pairs_changed.emit(attribute_pairs)
+	
+	# DEBUG
+	var d = ""
+	for a: EntityAttributePair in attribute_pairs:
+		if (a.is_negative):
+			d += "- "
+		else:
+			d += "+ "
+		d += "{ " + a.source_entity.title + " (" + a.source_attribute_id + ")" + " -> " + a.target_entity.title + " (" + a.target_attribute_id + ")" + " }"
+		d += "\n"
+	print(d)
+
 # ______________________________________________________________________________
 
 func _on_hole_active(hole: Entity) -> void:
