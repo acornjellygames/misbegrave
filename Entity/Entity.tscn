@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://cil02ueldrq2u"]
+
+[ext_resource type="Script" uid="uid://cbkl0asd66gb1" path="res://Entity/Entity.gd" id="1_4cku2"]
+[ext_resource type="Texture2D" uid="uid://dq17g1dfti1vh" path="res://assets/ghost/base/ghost-base.png" id="2_qkwct"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qkwct"]
+radius = 40.0
+height = 106.0
+
+[node name="Entity" type="Node2D"]
+script = ExtResource("1_4cku2")
+
+[node name="Sprites" type="Node2D" parent="."]
+
+[node name="DebugBase" type="Sprite2D" parent="Sprites"]
+visible = false
+texture = ExtResource("2_qkwct")
+
+[node name="Debug" type="Label" parent="."]
+visible = false
+self_modulate = Color(1, 0, 0, 1)
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="InteractionArea" type="Area2D" parent="."]
+
+[node name="InteractionShape" type="CollisionShape2D" parent="InteractionArea"]
+shape = SubResource("CapsuleShape2D_qkwct")
+
+[connection signal="mouse_entered" from="InteractionArea" to="." method="_on_interaction_area_mouse_entered"]
+[connection signal="mouse_exited" from="InteractionArea" to="." method="_on_interaction_area_mouse_exited"]

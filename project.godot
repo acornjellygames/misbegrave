@@ -11,8 +11,31 @@ config_version=5
 [application]
 
 config/name="misbegrave"
+run/main_scene="uid://dpsr8ytqywe7w"
 config/features=PackedStringArray("4.4", "GL Compatibility")
+boot_splash/bg_color=Color(0.0941138, 0.0695752, 0.38085, 1)
 config/icon="res://icon.svg"
+
+[autoload]
+
+State="*res://State.gd"
+Global="*res://Global.gd"
+EntityAttributes="*res://Entity/EntityAttributes.gd"
+EntityParts="*res://Entity/EntityParts.gd"
+Levels="*res://Level/Levels.gd"
+Views="*res://View/Views.gd"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/vsync/vsync_mode=0
+
+[file_customization]
+
+folder_colors={
+"res://assets/": "yellow"
+}
 
 [rendering]
 

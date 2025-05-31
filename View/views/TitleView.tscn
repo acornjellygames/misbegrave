@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://eud5m3ulwr4p"]
+
+[ext_resource type="PackedScene" uid="uid://doln80c6nuc6l" path="res://View/View.tscn" id="1_gd6v1"]
+[ext_resource type="Script" uid="uid://dlfvkwmljlmri" path="res://View/views/TitleView.gd" id="2_sk5yf"]
+
+[node name="TitleView" instance=ExtResource("1_gd6v1")]
+script = ExtResource("2_sk5yf")
+
+[node name="Label" type="Label" parent="." index="0"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "TITLE VIEW"
+
+[node name="Button" type="Button" parent="." index="1"]
+offset_left = 1.0
+offset_top = 31.0
+offset_right = 93.0
+offset_bottom = 62.0
+text = "start game"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

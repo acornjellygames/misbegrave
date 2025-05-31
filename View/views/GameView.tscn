@@ -1,0 +1,73 @@
+[gd_scene load_steps=7 format=3 uid="uid://vq1l5lro4mjn"]
+
+[ext_resource type="PackedScene" uid="uid://doln80c6nuc6l" path="res://View/View.tscn" id="1_c07vd"]
+[ext_resource type="Texture2D" uid="uid://c5sm8ff7rd6ed" path="res://assets/ui/info-box-decorated.png" id="2_1b75e"]
+[ext_resource type="Script" uid="uid://bgwwqlllstkv6" path="res://View/views/GameView.gd" id="2_d0yyp"]
+[ext_resource type="PackedScene" uid="uid://165bblrfntbb" path="res://Board/Board.tscn" id="3_o28e4"]
+[ext_resource type="Texture2D" uid="uid://ctsqrfgeh70bh" path="res://assets/ui/button-round.png" id="5_0fwqn"]
+[ext_resource type="Texture2D" uid="uid://j7k4h2bpnr62" path="res://assets/ui/button-round-pressed.png" id="6_n56sg"]
+
+[node name="GameView" node_paths=PackedStringArray("board", "board_container") instance=ExtResource("1_c07vd")]
+script = ExtResource("2_d0yyp")
+board = NodePath("GameViewPadding/Content/BoardContainer/Board")
+board_container = NodePath("GameViewPadding/Content/BoardContainer")
+
+[node name="GameViewPadding" type="MarginContainer" parent="." index="0"]
+custom_minimum_size = Vector2(1920, 1080)
+offset_right = 169.0
+offset_bottom = 125.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 64
+
+[node name="Content" type="HBoxContainer" parent="GameViewPadding" index="0"]
+layout_mode = 2
+
+[node name="BoardContainer" type="MarginContainer" parent="GameViewPadding/Content" index="0"]
+custom_minimum_size = Vector2(1280, 720)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+
+[node name="Board" parent="GameViewPadding/Content/BoardContainer" index="0" instance=ExtResource("3_o28e4")]
+
+[node name="Info" type="VBoxContainer" parent="GameViewPadding/Content" index="1"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="Label" type="Label" parent="GameViewPadding/Content/Info" index="0"]
+layout_mode = 2
+text = "Level 99"
+horizontal_alignment = 1
+
+[node name="InfoPanel" type="NinePatchRect" parent="GameViewPadding/Content/Info" index="1"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("2_1b75e")
+region_rect = Rect2(8, 34, 880, 230)
+patch_margin_left = 67
+patch_margin_top = 54
+patch_margin_right = 70
+patch_margin_bottom = 76
+axis_stretch_horizontal = 2
+
+[node name="LockInButton" type="TextureButton" parent="GameViewPadding/Content/Info" index="2"]
+layout_mode = 2
+texture_normal = ExtResource("5_0fwqn")
+texture_pressed = ExtResource("6_n56sg")
+stretch_mode = 3
+
+[node name="Label" type="Label" parent="GameViewPadding/Content/Info/LockInButton" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Lay To Rest"
+horizontal_alignment = 1
+vertical_alignment = 1

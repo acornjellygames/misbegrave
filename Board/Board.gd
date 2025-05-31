@@ -1,0 +1,122 @@
+class_name Board extends Node2D
+
+# ______________________________________________________________________________
+
+var dimensions: Vector2i = Vector2i(-1, -1)
+var prop_grid: Array[Array] = [[]]
+var ghost_grid: Array[Array] = [[]]
+var active_ghost: Entity = null
+var active_hole: Entity = null
+
+@onready var debug = $Debug
+@onready var props = $Props
+@onready var ghosts = $Ghosts
+
+# ______________________________________________________________________________
+
+func _ready() -> void:
+	pass
+	
+func load_level(level: Level) -> void:	
+	_load_props(level)
+	_load_ghosts(level)
+	dimensions = level.dimensions
+	
+func _load_props(level: Level) -> void:
+	var new_prop_grid: Array[Array] = Global.create_2d_array(level.dimensions)
+	for prop: Entity in level.props:
+		props.add_child(prop)
+		new_prop_grid[prop.grid_position.x][prop.grid_position.y] = prop
+		if (prop.type == Global.EntityType.HOLE):
+			prop.s_start_hovering.connect(_on_hole_active)
+			prop.s_stop_hovering.connect(_on_hole_inactive)
+	prop_grid = new_prop_grid
+
+func _load_ghosts(level: Level) -> void:
+	var new_ghost_grid: Array[Array] = Global.create_2d_array(level.dimensions)
+	ghost_grid = new_ghost_grid
+	
+	var reserve_bounds = Global.TILE_SIZE * level.dimensions
+	for i in range(level.ghosts.size()):
+		var ghost = level.ghosts[i]
+		ghosts.add_child(ghost)
+		var new_position = Vector2(reserve_bounds.x + (Global.TILE_SIZE / 2.0), (i + 0.5) * Global.TILE_SIZE)
+		ghost.set_position(new_position)
+		ghost.last_position = new_position
+		ghost.s_start_dragging.connect(_on_ghost_active)
+		ghost.s_stop_dragging.connect(_on_ghost_inactive)
+		
+# ______________________________________________________________________________
+
+func _on_hole_active(hole: Entity) -> void:
+	if (active_hole == null):
+		active_hole = hole
+		_update_debug()
+
+func _on_hole_inactive(_hole: Entity) -> void:
+	active_hole = null
+	_update_debug()
+
+func _on_ghost_active(ghost: Entity) -> void:
+	
+	active_ghost = ghost
+	_update_debug()
+
+func _on_ghost_inactive(ghost: Entity) -> void:
+	if (active_ghost != null):
+		print("ghost: " + ghost.title + " / active_ghost: " + active_ghost.title)
+	else:
+		print("ghost: " + ghost.title)
+
+	if (active_hole == null):
+		return active_ghost.move_to_last_position()
+	
+	var grid_position = active_hole.grid_position
+	var blocking_ghost = ghost_grid[grid_position.x][grid_position.y]
+	if (blocking_ghost != null):
+		blocking_ghost.move_to_grid_position(active_ghost.grid_position, active_ghost.last_position)
+		ghost_grid[active_ghost.grid_position.x][active_ghost.grid_position.y] = blocking_ghost
+	else:
+		ghost_grid[active_ghost.grid_position.x][active_ghost.grid_position.y] = null
+	active_ghost.move_to_grid_position(grid_position)
+	ghost_grid[grid_position.x][grid_position.y] = active_ghost
+		
+	
+	#if (active_hole != null && active_ghost != null):
+		#if (active_ghost.grid_position != Vector2i(-1, -1)):
+			#ghost_grid[active_ghost.grid_position.x][active_ghost.grid_position.y] = null
+			#
+		#var blocking_ghost = ghost_grid[active_hole.grid_position.x][active_hole.grid_position.y]
+		#if (blocking_ghost != null):
+			#
+			#if (active_ghost.grid_position != Vector2i(-1, -1)):
+				#ghost_grid[active_ghost.grid_position.x][active_ghost.grid_position.y] = blocking_ghost
+			#else:
+				#ghost_grid[active_ghost.grid_position.x][active_ghost.grid_position.y] = null
+				#
+			#blocking_ghost.grid_position = active_ghost.grid_position
+			#blocking_ghost.set_position(active_ghost.last_position)
+		#
+		#
+		#ghost_grid[active_hole.grid_position.x][active_hole.grid_position.y] = ghost
+		#active_ghost.move(active_hole.grid_position)
+		#
+	#else:
+		#ghost.move_to_previous_position()
+		
+	active_ghost = null
+	_update_debug()
+	
+# ______________________________________________________________________________
+
+func _update_debug() -> void:
+	var ghost_title = ""
+	var ghost_grid_position = ""
+	if (!!active_ghost): 
+		ghost_title = active_ghost.title
+		ghost_grid_position = "[" + str(active_ghost.grid_position.x) + ", " + str(active_ghost.grid_position.y) + "]"
+	var hole_grid_position = ""
+	if (!!active_hole): 
+		hole_grid_position = "[" + str(active_hole.grid_position.x) + ", " + str(active_hole.grid_position.y) + "]"
+	debug.set_text("Ghost: " + ghost_title + " " + ghost_grid_position + "
+	" + "Hole: " + hole_grid_position)
