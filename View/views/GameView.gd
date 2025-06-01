@@ -15,13 +15,14 @@ extends View
 @export var score_label: Label
 @export var scoring_timer: Timer
 
-@export var primary_button_text: Label
+@export var primary_button: PrimaryButton
 
 var is_scoring: bool = false
 
 # ______________________________________________________________________________
 
 func _ready() -> void:
+	reset()
 	load_level(Levels.order.front())
 	
 # ______________________________________________________________________________
@@ -39,7 +40,7 @@ func reset() -> void:
 	is_scoring = false
 	State.score = 0
 	State.pairs = []
-	primary_button_text.set_text("Lay to Rest")
+	primary_button.set_text("Lay to Rest")
 	pair_label.set_text("")
 	adding_to_score_label.set_text("")
 	score_label.set_text("")
@@ -77,7 +78,7 @@ func finish_scoring() -> void:
 	State.total_score += State.score
 	pair_label.set_text("Congrats!")
 	adding_to_score_label.set_text("Final Score")
-	primary_button_text.set_text("Next Level")
+	primary_button.set_text("Next Level")
 	
 func _on_scoring_timer_timeout() -> void:
 	if (State.pairs.size() > 0):
