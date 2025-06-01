@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://eud5m3ulwr4p"]
+[gd_scene load_steps=7 format=3 uid="uid://eud5m3ulwr4p"]
 
 [ext_resource type="PackedScene" uid="uid://doln80c6nuc6l" path="res://View/View.tscn" id="1_gd6v1"]
 [ext_resource type="Script" uid="uid://dlfvkwmljlmri" path="res://View/views/TitleView.gd" id="2_sk5yf"]
 [ext_resource type="Texture2D" uid="uid://cepyw4ju48wby" path="res://assets/background/title-background.png" id="3_kguce"]
 [ext_resource type="PackedScene" uid="uid://cd4pjyj5k6unh" path="res://UI/PrimaryButton.tscn" id="4_yx87o"]
+[ext_resource type="Theme" uid="uid://bgwjhguo1kbd4" path="res://themes/Body.tres" id="5_lfyu2"]
 [ext_resource type="Texture2D" uid="uid://5x7jgssg6qwd" path="res://assets/background/acorn-jelly-splash.png" id="5_vgg5x"]
 
 [node name="TitleView" instance=ExtResource("1_gd6v1")]
@@ -38,7 +39,16 @@ text = "Start Game"
 layout_mode = 2
 text = "Credits"
 
-[node name="Splash" type="TextureRect" parent="." index="1"]
+[node name="Copyright" type="Label" parent="." index="1"]
+offset_left = 1494.0
+offset_top = 1035.0
+offset_right = 1926.0
+offset_bottom = 1074.0
+theme = ExtResource("5_lfyu2")
+text = "2025 Acorn Jelly Games, for PPGGJJ4"
+horizontal_alignment = 1
+
+[node name="Splash" type="TextureRect" parent="." index="2"]
 offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("5_vgg5x")

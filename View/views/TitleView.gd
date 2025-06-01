@@ -6,13 +6,17 @@ extends View
 # ______________________________________________________________________________
 
 func _ready() -> void:
-	pass
+	if (State.has_seen_splash_screen):
+		splash_screen.set_visible(false)
 	
 func transition_out_splash_screen() -> void:
 	var tween = create_tween()
 	tween.tween_property(splash_screen, "self_modulate", Color(1, 1, 1, 0), .5)
 	tween.set_trans(Tween.TRANS_EXPO)
-	tween.tween_callback(func(): splash_screen.queue_free())
+	tween.tween_callback(func(): 
+		splash_screen.queue_free()
+		State.has_seen_splash_screen = true
+	)
 	tween.play()	
 
 # ______________________________________________________________________________

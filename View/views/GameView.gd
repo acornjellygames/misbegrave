@@ -75,6 +75,7 @@ func start_scoring() -> void:
 	scoring_timer.start()
 	
 func finish_scoring() -> void:
+	scoring_timer.stop()
 	State.total_score += State.score
 	pair_label.set_text("Congrats!")
 	adding_to_score_label.set_text("Final Score")

@@ -34,6 +34,8 @@ func load_level(level: Level) -> void:
 func _load_props(level: Level) -> void:
 	var new_prop_grid: Array[Array] = Global.create_2d_array(level.dimensions)
 	for prop: Entity in level.props:
+		if (prop.get_parent() != null):
+			prop.get_parent().remove_child(prop)
 		props.add_child(prop)
 		new_prop_grid[prop.grid_position.x][prop.grid_position.y] = prop
 		if (prop.type == Global.EntityType.HOLE):
@@ -70,9 +72,11 @@ func _load_ghosts(level: Level) -> void:
 		ghost_reserve_height =  Global.TILE_SIZE * 0.50
 		reserve_height = ghost_count * ghost_reserve_height
 		
-	var reserve_offset = (Vector2(0, Global.BOARD_CONTAINER_SIZE.y - reserve_height) / 2) + Global.RESERVE_MARGIN + Vector2(Global.TILE_SIZE / 2, ghost_reserve_height / 2) 
+	var reserve_offset = (Vector2(0.0, Global.BOARD_CONTAINER_SIZE.y - reserve_height) / 2.0) + Global.RESERVE_MARGIN + Vector2(Global.TILE_SIZE / 2.0, ghost_reserve_height / 2.0) 
 	for i in range(ghost_count):
 		var ghost = level.ghosts[i]
+		if (ghost.get_parent() != null):
+			ghost.get_parent().remove_child(ghost)
 		ghosts.add_child(ghost)
 		ghost.set_global_position(Vector2(0, i * ghost_reserve_height) + reserve_offset)
 		var new_position = ghost.get_position()
@@ -90,10 +94,18 @@ func reset() -> void:
 	active_ghost = null
 	active_hole = null
 	attribute_pairs = []
+	
+	# THIS IS REALLY STUPID
+	# The ghosts and props get auto freed at some point
+	# So we attach them as a child of the Global node to avoid this
+	# We detach them when we need them again
+	# Idk why this happens and I don't have time to figure it out
 	for node: Node in ghosts.get_children():
-		node.queue_free()
+		ghosts.remove_child(node)
+		Global.add_child(node)
 	for node: Node in props.get_children():
-		node.queue_free()
+		props.remove_child(node)
+		Global.add_child(node)
 	
 # ______________________________________________________________________________
 
@@ -176,7 +188,7 @@ func _on_ghost_inactive(ghost: Entity) -> void:
 	
 	var grid_position = active_hole.grid_position
 	var blocking_ghost = ghost_grid[grid_position.x][grid_position.y]
-	if (blocking_ghost != null && active_ghost != null):
+	if (blocking_ghost != null):
 		blocking_ghost.move_to_grid_position(active_ghost.grid_position, active_ghost.last_position)
 		ghost_grid[active_ghost.grid_position.x][active_ghost.grid_position.y] = blocking_ghost
 	else:
