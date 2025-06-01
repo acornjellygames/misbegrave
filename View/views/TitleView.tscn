@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://eud5m3ulwr4p"]
+[gd_scene load_steps=6 format=3 uid="uid://eud5m3ulwr4p"]
 
 [ext_resource type="PackedScene" uid="uid://doln80c6nuc6l" path="res://View/View.tscn" id="1_gd6v1"]
 [ext_resource type="Script" uid="uid://dlfvkwmljlmri" path="res://View/views/TitleView.gd" id="2_sk5yf"]
 [ext_resource type="Texture2D" uid="uid://cepyw4ju48wby" path="res://assets/background/title-background.png" id="3_kguce"]
 [ext_resource type="PackedScene" uid="uid://cd4pjyj5k6unh" path="res://UI/PrimaryButton.tscn" id="4_yx87o"]
+[ext_resource type="Texture2D" uid="uid://5x7jgssg6qwd" path="res://assets/background/acorn-jelly-splash.png" id="5_vgg5x"]
 
 [node name="TitleView" instance=ExtResource("1_gd6v1")]
 script = ExtResource("2_sk5yf")
@@ -37,5 +38,16 @@ text = "Start Game"
 layout_mode = 2
 text = "Credits"
 
+[node name="Splash" type="TextureRect" parent="." index="1"]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("5_vgg5x")
+
+[node name="SplashTimer" type="Timer" parent="Splash" index="0"]
+wait_time = 3.0
+one_shot = true
+autostart = true
+
 [connection signal="pressed" from="Background/CenterContainer/MarginContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="Background/CenterContainer/MarginContainer/VBoxContainer/CreditsButton" to="." method="_on_credits_button_pressed"]
+[connection signal="timeout" from="Splash/SplashTimer" to="." method="transition_out_splash_screen"]

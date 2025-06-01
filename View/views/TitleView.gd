@@ -1,5 +1,20 @@
 extends View
 
+@onready var splash_screen: TextureRect = $Splash
+@onready var splash_timer: Timer = $Splash/SplashTimer
+
+# ______________________________________________________________________________
+
+func _ready() -> void:
+	pass
+	
+func transition_out_splash_screen() -> void:
+	var tween = create_tween()
+	tween.tween_property(splash_screen, "self_modulate", Color(1, 1, 1, 0), .5)
+	tween.set_trans(Tween.TRANS_EXPO)
+	tween.tween_callback(func(): splash_screen.queue_free())
+	tween.play()	
+
 # ______________________________________________________________________________
 
 func _on_start_button_pressed() -> void:
