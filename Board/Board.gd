@@ -26,6 +26,7 @@ func _ready() -> void:
 # ______________________________________________________________________________
 	
 func load_level(level: Level) -> void:	
+	reset()
 	_load_props(level)
 	_load_ghosts(level)
 	dimensions = level.dimensions
@@ -33,6 +34,8 @@ func load_level(level: Level) -> void:
 func _load_props(level: Level) -> void:
 	var new_prop_grid: Array[Array] = Global.create_2d_array(level.dimensions)
 	for prop: Entity in level.props:
+		if (prop.get_parent() != null):
+			prop.get_parent().remove_child(prop)
 		props.add_child(prop)
 		new_prop_grid[prop.grid_position.x][prop.grid_position.y] = prop
 		if (prop.type == Global.EntityType.HOLE):
@@ -44,11 +47,39 @@ func _load_ghosts(level: Level) -> void:
 	var new_ghost_grid: Array[Array] = Global.create_2d_array(level.dimensions)
 	ghost_grid = new_ghost_grid
 	
-	var reserve_bounds = Global.TILE_SIZE * level.dimensions
-	for i in range(level.ghosts.size()):
+	var ghost_count = level.ghosts.size()
+	
+	var ghost_reserve_height = Global.TILE_SIZE
+	var reserve_height = ghost_count * Global.TILE_SIZE
+	
+	if (reserve_height > Global.BOARD_CONTAINER_SIZE.y * 0.9):
+		ghost_reserve_height =  Global.TILE_SIZE * 0.90
+		reserve_height = ghost_count * ghost_reserve_height
+		
+	if (reserve_height > Global.BOARD_CONTAINER_SIZE.y * 0.9):
+		ghost_reserve_height =  Global.TILE_SIZE * 0.80
+		reserve_height = ghost_count * ghost_reserve_height
+	
+	if (reserve_height > Global.BOARD_CONTAINER_SIZE.y * 0.9):
+		ghost_reserve_height =  Global.TILE_SIZE * 0.70
+		reserve_height = ghost_count * ghost_reserve_height
+		
+	if (reserve_height > Global.BOARD_CONTAINER_SIZE.y * 0.9):
+		ghost_reserve_height =  Global.TILE_SIZE * 0.60
+		reserve_height = ghost_count * ghost_reserve_height
+	
+	if (reserve_height > Global.BOARD_CONTAINER_SIZE.y * 0.9):
+		ghost_reserve_height =  Global.TILE_SIZE * 0.50
+		reserve_height = ghost_count * ghost_reserve_height
+		
+	var reserve_offset = (Vector2(0.0, Global.BOARD_CONTAINER_SIZE.y - reserve_height) / 2.0) + Global.RESERVE_MARGIN + Vector2(Global.TILE_SIZE / 2.0, ghost_reserve_height / 2.0) 
+	for i in range(ghost_count):
 		var ghost = level.ghosts[i]
+		if (ghost.get_parent() != null):
+			ghost.get_parent().remove_child(ghost)
 		ghosts.add_child(ghost)
-		var new_position = Vector2(reserve_bounds.x + (Global.TILE_SIZE / 2.0), (i + 0.5) * Global.TILE_SIZE)
+		ghost.set_global_position(Vector2(0, i * ghost_reserve_height) + reserve_offset)
+		var new_position = ghost.get_position()
 		ghost.set_position(new_position)
 		ghost.last_position = new_position
 		ghost.s_start_dragging.connect(_on_ghost_active)
@@ -63,10 +94,18 @@ func reset() -> void:
 	active_ghost = null
 	active_hole = null
 	attribute_pairs = []
+	
+	# THIS IS REALLY STUPID
+	# The ghosts and props get auto freed at some point
+	# So we attach them as a child of the Global node to avoid this
+	# We detach them when we need them again
+	# Idk why this happens and I don't have time to figure it out
 	for node: Node in ghosts.get_children():
-		node.queue_free()
+		ghosts.remove_child(node)
+		Global.add_child(node)
 	for node: Node in props.get_children():
-		node.queue_free()
+		props.remove_child(node)
+		Global.add_child(node)
 	
 # ______________________________________________________________________________
 
