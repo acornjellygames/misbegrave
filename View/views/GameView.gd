@@ -4,6 +4,7 @@ extends View
 
 @export var board: Board
 @export var board_container: Container
+@export var level_label: Label
 
 @export var info: Control
 @export var ghost_name_label: Label
@@ -14,7 +15,6 @@ extends View
 @export var adding_to_score_label: Label
 @export var score_label: Label
 @export var scoring_timer: Timer
-
 @export var primary_button: PrimaryButton
 
 var is_scoring: bool = false
@@ -28,15 +28,15 @@ func _ready() -> void:
 # ______________________________________________________________________________
 	
 func load_level(level: Level) -> void:
-	var level_size: Vector2 = (level.dimensions + Vector2i(1, 0)) * Global.TILE_SIZE
+	var level_size: Vector2 = (level.dimensions) * Global.TILE_SIZE
 	var interstitial_size = Vector2(Global.BOARD_CONTAINER_SIZE) - level_size
 	board.set_position(interstitial_size / 2)
 	board.load_level(level)
+	level_label.set_text(level.title)
 	
 # ______________________________________________________________________________
 
 func reset() -> void:
-	board.reset()
 	is_scoring = false
 	State.score = 0
 	State.pairs = []
@@ -125,7 +125,7 @@ func next_level() -> void:
 	var new_level = Levels.order[new_level_index]
 	State.level_index = new_level_index
 	State.level = new_level
-	board.load_level(new_level)
+	load_level(new_level)
 	
 func _on_primary_button_pressed() -> void:
 	if (is_scoring):

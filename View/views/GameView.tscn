@@ -15,48 +15,43 @@ Label/colors/font_outline_color = Color(1, 1, 1, 1)
 Label/font_sizes/font_size = 30
 Label/fonts/font = ExtResource("5_n56sg")
 
-[node name="GameView" node_paths=PackedStringArray("board", "board_container", "info", "ghost_name_label", "ghost_attributes_label", "scoring", "pair_label", "adding_to_score_label", "score_label", "scoring_timer", "primary_button") instance=ExtResource("1_c07vd")]
+[node name="GameView" node_paths=PackedStringArray("board", "level_label", "info", "ghost_name_label", "ghost_attributes_label", "scoring", "pair_label", "adding_to_score_label", "score_label", "scoring_timer", "primary_button") instance=ExtResource("1_c07vd")]
 script = ExtResource("2_d0yyp")
-board = NodePath("GameViewPadding/Content/BoardContainer/Board")
-board_container = NodePath("GameViewPadding/Content/BoardContainer")
-info = NodePath("GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Info")
-ghost_name_label = NodePath("GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Info/GhostName")
-ghost_attributes_label = NodePath("GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Info/GhostAttributes")
-scoring = NodePath("GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Scoring")
-pair_label = NodePath("GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Scoring/Pair")
-adding_to_score_label = NodePath("GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Scoring/AddingToScore")
-score_label = NodePath("GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Scoring/Score")
-scoring_timer = NodePath("GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Scoring/ScoringTimer")
-primary_button = NodePath("GameViewPadding/Content/Info/PrimaryButton")
+board = NodePath("Board")
+level_label = NodePath("Content/HUDMargin/HUD/Level")
+info = NodePath("Content/HUDMargin/HUD/HUDPanel/HUDPanelPadding/Info")
+ghost_name_label = NodePath("Content/HUDMargin/HUD/HUDPanel/HUDPanelPadding/Info/GhostName")
+ghost_attributes_label = NodePath("Content/HUDMargin/HUD/HUDPanel/HUDPanelPadding/Info/GhostAttributes")
+scoring = NodePath("Content/HUDMargin/HUD/HUDPanel/HUDPanelPadding/Scoring")
+pair_label = NodePath("Content/HUDMargin/HUD/HUDPanel/HUDPanelPadding/Scoring/Pair")
+adding_to_score_label = NodePath("Content/HUDMargin/HUD/HUDPanel/HUDPanelPadding/Scoring/AddingToScore")
+score_label = NodePath("Content/HUDMargin/HUD/HUDPanel/HUDPanelPadding/Scoring/Score")
+scoring_timer = NodePath("Content/HUDMargin/HUD/HUDPanel/HUDPanelPadding/Scoring/ScoringTimer")
+primary_button = NodePath("Content/HUDMargin/HUD/PrimaryButton")
 
-[node name="GameViewPadding" type="MarginContainer" parent="." index="0"]
+[node name="Content" type="HBoxContainer" parent="." index="0"]
 custom_minimum_size = Vector2(1920, 1080)
-offset_right = 169.0
-offset_bottom = 125.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="BoardSpacer" type="VSeparator" parent="Content" index="0"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/margin_left = 64
+mouse_filter = 2
+
+[node name="HUDMargin" type="MarginContainer" parent="Content" index="1"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
 theme_override_constants/margin_top = 64
 theme_override_constants/margin_right = 64
 theme_override_constants/margin_bottom = 64
 
-[node name="Content" type="HBoxContainer" parent="GameViewPadding" index="0"]
-layout_mode = 2
-
-[node name="BoardContainer" type="MarginContainer" parent="GameViewPadding/Content" index="0"]
-custom_minimum_size = Vector2(1280, 720)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 8
-
-[node name="Board" parent="GameViewPadding/Content/BoardContainer" index="0" instance=ExtResource("3_o28e4")]
-
-[node name="Info" type="VBoxContainer" parent="GameViewPadding/Content" index="1"]
-custom_minimum_size = Vector2(500, 0)
+[node name="HUD" type="VBoxContainer" parent="Content/HUDMargin" index="0"]
 layout_mode = 2
 theme_override_constants/separation = 32
 
-[node name="LevelTitle" type="Label" parent="GameViewPadding/Content/Info" index="0"]
+[node name="Level" type="Label" parent="Content/HUDMargin/HUD" index="0"]
 z_index = 4096
 z_as_relative = false
 layout_mode = 2
@@ -64,7 +59,7 @@ theme = ExtResource("4_jiuqq")
 text = "L E V E L   9 9"
 horizontal_alignment = 1
 
-[node name="InfoPanel" type="NinePatchRect" parent="GameViewPadding/Content/Info" index="1"]
+[node name="HUDPanel" type="NinePatchRect" parent="Content/HUDMargin/HUD" index="1"]
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("2_1b75e")
@@ -75,7 +70,7 @@ patch_margin_right = 70
 patch_margin_bottom = 76
 axis_stretch_horizontal = 2
 
-[node name="InfoPanelPadding" type="MarginContainer" parent="GameViewPadding/Content/Info/InfoPanel" index="0"]
+[node name="HUDPanelPadding" type="MarginContainer" parent="Content/HUDMargin/HUD/HUDPanel" index="0"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -87,18 +82,18 @@ theme_override_constants/margin_top = 90
 theme_override_constants/margin_right = 70
 theme_override_constants/margin_bottom = 90
 
-[node name="Info" type="VBoxContainer" parent="GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding" index="0"]
+[node name="Info" type="VBoxContainer" parent="Content/HUDMargin/HUD/HUDPanel/HUDPanelPadding" index="0"]
 layout_mode = 2
 theme_override_constants/separation = 36
 
-[node name="GhostName" type="Label" parent="GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Info" index="0"]
+[node name="GhostName" type="Label" parent="Content/HUDMargin/HUD/HUDPanel/HUDPanelPadding/Info" index="0"]
 layout_mode = 2
 theme = ExtResource("5_5dn7j")
 text = "Benjamin"
 horizontal_alignment = 1
 clip_text = true
 
-[node name="GhostAttributes" type="Label" parent="GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Info" index="1"]
+[node name="GhostAttributes" type="Label" parent="Content/HUDMargin/HUD/HUDPanel/HUDPanelPadding/Info" index="1"]
 layout_mode = 2
 theme = SubResource("Theme_5dn7j")
 text = "asdasd
@@ -106,38 +101,40 @@ asdasdas
 asdasdasd
 asdasdasd"
 
-[node name="Scoring" type="VBoxContainer" parent="GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding" index="1"]
+[node name="Scoring" type="VBoxContainer" parent="Content/HUDMargin/HUD/HUDPanel/HUDPanelPadding" index="1"]
 visible = false
 layout_mode = 2
 theme_override_constants/separation = 36
 
-[node name="Pair" type="Label" parent="GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Scoring" index="0"]
+[node name="Pair" type="Label" parent="Content/HUDMargin/HUD/HUDPanel/HUDPanelPadding/Scoring" index="0"]
 layout_mode = 2
 size_flags_vertical = 3
 theme = SubResource("Theme_5dn7j")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AddingToScore" type="Label" parent="GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Scoring" index="1"]
+[node name="AddingToScore" type="Label" parent="Content/HUDMargin/HUD/HUDPanel/HUDPanelPadding/Scoring" index="1"]
 layout_mode = 2
 size_flags_vertical = 8
 theme = SubResource("Theme_5dn7j")
 horizontal_alignment = 1
 
-[node name="Score" type="Label" parent="GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Scoring" index="2"]
+[node name="Score" type="Label" parent="Content/HUDMargin/HUD/HUDPanel/HUDPanelPadding/Scoring" index="2"]
 layout_mode = 2
 theme = ExtResource("5_5dn7j")
 text = "0"
 horizontal_alignment = 1
 clip_text = true
 
-[node name="ScoringTimer" type="Timer" parent="GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Scoring" index="3"]
+[node name="ScoringTimer" type="Timer" parent="Content/HUDMargin/HUD/HUDPanel/HUDPanelPadding/Scoring" index="3"]
 wait_time = 1.5
 
-[node name="PrimaryButton" parent="GameViewPadding/Content/Info" index="2" instance=ExtResource("8_5dn7j")]
+[node name="PrimaryButton" parent="Content/HUDMargin/HUD" index="2" instance=ExtResource("8_5dn7j")]
 layout_mode = 2
 
-[connection signal="s_active_ghost_changed" from="GameViewPadding/Content/BoardContainer/Board" to="." method="_on_active_ghost_changed"]
-[connection signal="s_attribute_pairs_changed" from="GameViewPadding/Content/BoardContainer/Board" to="." method="_on_attribute_pairs_changed"]
-[connection signal="timeout" from="GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Scoring/ScoringTimer" to="." method="_on_scoring_timer_timeout"]
-[connection signal="pressed" from="GameViewPadding/Content/Info/PrimaryButton" to="." method="_on_primary_button_pressed"]
+[node name="Board" parent="." index="1" instance=ExtResource("3_o28e4")]
+
+[connection signal="timeout" from="Content/HUDMargin/HUD/HUDPanel/HUDPanelPadding/Scoring/ScoringTimer" to="." method="_on_scoring_timer_timeout"]
+[connection signal="pressed" from="Content/HUDMargin/HUD/PrimaryButton" to="." method="_on_primary_button_pressed"]
+[connection signal="s_active_ghost_changed" from="Board" to="." method="_on_active_ghost_changed"]
+[connection signal="s_attribute_pairs_changed" from="Board" to="." method="_on_attribute_pairs_changed"]

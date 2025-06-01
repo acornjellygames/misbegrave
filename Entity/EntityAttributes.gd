@@ -81,7 +81,7 @@ var TRADITIONAL = EntityAttribute.new("TRADITIONAL", "Traditional", "", [
 # ______________________________________________________________________________
 
 var FRIENDLY = EntityAttribute.new("FRIENDLY", "Friendly", "", [
-	"PUSHOVER", "QUIET", "LOUD", "WARM", "NERDY",
+	"FRIENDLY", "PUSHOVER", "QUIET", "LOUD", "WARM", "NERDY",
 	"TRADITIONAL", "INTROVERT", "EXTROVERT", "FLIRTY", "SOCIAL", "ELDERLY",
 	"YOUNG", "MUSIC", "CRAFTS", "MEDITATING", "READING", "GRUMPY"
 ], [
