@@ -23,6 +23,8 @@ var attribute_pairs: Array[EntityAttributePair] = []
 func _ready() -> void:
 	pass
 	
+# ______________________________________________________________________________
+	
 func load_level(level: Level) -> void:	
 	_load_props(level)
 	_load_ghosts(level)
@@ -52,6 +54,20 @@ func _load_ghosts(level: Level) -> void:
 		ghost.s_start_dragging.connect(_on_ghost_active)
 		ghost.s_stop_dragging.connect(_on_ghost_inactive)
 		
+# ______________________________________________________________________________
+
+func reset() -> void:
+	dimensions = Vector2i(-1, -1)
+	prop_grid = [[]]
+	ghost_grid = [[]]
+	active_ghost = null
+	active_hole = null
+	attribute_pairs = []
+	for node: Node in ghosts.get_children():
+		node.queue_free()
+	for node: Node in props.get_children():
+		node.queue_free()
+	
 # ______________________________________________________________________________
 
 func refresh_surrounding_entities() -> void:

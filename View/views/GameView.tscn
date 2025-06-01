@@ -16,7 +16,7 @@ Label/colors/font_outline_color = Color(1, 1, 1, 1)
 Label/font_sizes/font_size = 30
 Label/fonts/font = ExtResource("5_n56sg")
 
-[node name="GameView" node_paths=PackedStringArray("board", "board_container", "info", "ghost_name_label", "ghost_attributes_label", "scoring", "pair_label", "adding_to_score_label", "score_label", "scoring_timer") instance=ExtResource("1_c07vd")]
+[node name="GameView" node_paths=PackedStringArray("board", "board_container", "info", "ghost_name_label", "ghost_attributes_label", "scoring", "pair_label", "adding_to_score_label", "score_label", "scoring_timer", "primary_button_text") instance=ExtResource("1_c07vd")]
 script = ExtResource("2_d0yyp")
 board = NodePath("GameViewPadding/Content/BoardContainer/Board")
 board_container = NodePath("GameViewPadding/Content/BoardContainer")
@@ -28,6 +28,7 @@ pair_label = NodePath("GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/S
 adding_to_score_label = NodePath("GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Scoring/AddingToScore")
 score_label = NodePath("GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Scoring/Score")
 scoring_timer = NodePath("GameViewPadding/Content/Info/InfoPanel/InfoPanelPadding/Scoring/ScoringTimer")
+primary_button_text = NodePath("GameViewPadding/Content/Info/PrimaryButton/PrimaryButtonText")
 
 [node name="GameViewPadding" type="MarginContainer" parent="." index="0"]
 custom_minimum_size = Vector2(1920, 1080)
