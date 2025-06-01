@@ -22,9 +22,11 @@ var is_hovering: bool = false
 var is_dragging: bool = false
 var surrounding_entities: Array[Entity] = []
 
-@onready var sprites = $Sprites
-@onready var debug = $Debug
-@onready var emote_container = $EmoteContainer
+@onready var sprites: Node2D = $Sprites
+@onready var debug: Label = $Debug
+@onready var emote_container: Node2D = $EmoteContainer
+@onready var overhead_text: Label = $OverheadText
+@onready var overhead_text_timer: Timer = $OverheadText/OverheadTextTimer
 
 # ______________________________________________________________________________
 
@@ -147,6 +149,39 @@ func _get_attribute_score(target_attribute: EntityAttribute) -> int:
 	for attribute: EntityAttribute in attributes:
 		score += attribute.get_attribute_score(target_attribute)
 	return score
+	
+# ______________________________________________________________________________
+
+func get_attribute_pairs_from_surrounding_entities() -> Array[EntityAttributePair]:
+	var pairs: Array[EntityAttributePair] = []
+	for surrounding_entity: Entity in surrounding_entities:
+		pairs.append_array(get_attribute_pairs_from_entity(surrounding_entity))
+	return pairs
+
+func get_attribute_pairs_from_entity(target_entity: Entity) -> Array[EntityAttributePair]:
+	var pairs: Array[EntityAttributePair] = []
+	for target_attribute: EntityAttribute in target_entity.attributes:
+		for source_attribute: EntityAttribute in attributes:
+			for like_id: String in source_attribute.like_ids:
+				if (target_attribute.id == like_id):
+					pairs.append(EntityAttributePair.new(self, target_entity, source_attribute.id, target_attribute.id, false))
+			for hate_id: String in source_attribute.hate_ids:
+				if (target_attribute.id == hate_id):
+					pairs.append(EntityAttributePair.new(self, target_entity, source_attribute.id, target_attribute.id, true))
+	return pairs
+	
+# ______________________________________________________________________________
+
+func show_overhead_text(text: String) -> void:
+	overhead_text.set_visible(true)
+	overhead_text.set_text(text)
+	overhead_text_timer.start()
+
+func hide_overhead_text() -> void:
+	overhead_text.set_visible(false)
+	
+func _on_overhead_text_timer_timeout() -> void:
+	hide_overhead_text()
 
 # ______________________________________________________________________________
 

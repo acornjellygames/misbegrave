@@ -2,11 +2,17 @@ class_name Board extends Node2D
 
 # ______________________________________________________________________________
 
+signal s_active_ghost_changed(ghost: Entity)
+signal s_attribute_pairs_changed(pairs: Array[EntityAttributePair])
+
+# ______________________________________________________________________________
+
 var dimensions: Vector2i = Vector2i(-1, -1)
 var prop_grid: Array[Array] = [[]]
 var ghost_grid: Array[Array] = [[]]
 var active_ghost: Entity = null
 var active_hole: Entity = null
+var attribute_pairs: Array[EntityAttributePair] = []
 
 @onready var debug = $Debug
 @onready var props = $Props
@@ -16,6 +22,8 @@ var active_hole: Entity = null
 
 func _ready() -> void:
 	pass
+	
+# ______________________________________________________________________________
 	
 func load_level(level: Level) -> void:	
 	_load_props(level)
@@ -46,6 +54,20 @@ func _load_ghosts(level: Level) -> void:
 		ghost.s_start_dragging.connect(_on_ghost_active)
 		ghost.s_stop_dragging.connect(_on_ghost_inactive)
 		
+# ______________________________________________________________________________
+
+func reset() -> void:
+	dimensions = Vector2i(-1, -1)
+	prop_grid = [[]]
+	ghost_grid = [[]]
+	active_ghost = null
+	active_hole = null
+	attribute_pairs = []
+	for node: Node in ghosts.get_children():
+		node.queue_free()
+	for node: Node in props.get_children():
+		node.queue_free()
+	
 # ______________________________________________________________________________
 
 func refresh_surrounding_entities() -> void:
@@ -83,6 +105,25 @@ func get_surrounding_entities_from_board(grid_position: Vector2i, grid: Array[Ar
 		
 # ______________________________________________________________________________
 
+func calculate_attribute_pairs() -> void:
+	attribute_pairs = []
+	for ghost: Entity in ghosts.get_children():
+		attribute_pairs.append_array(ghost.get_attribute_pairs_from_surrounding_entities())
+	s_attribute_pairs_changed.emit(attribute_pairs)
+	
+	# DEBUG
+	var d = ""
+	for a: EntityAttributePair in attribute_pairs:
+		if (a.is_negative):
+			d += "- "
+		else:
+			d += "+ "
+		d += "{ " + a.source_entity.title + " (" + a.source_attribute_id + ")" + " -> " + a.target_entity.title + " (" + a.target_attribute_id + ")" + " }"
+		d += "\n"
+	print(d)
+
+# ______________________________________________________________________________
+
 func _on_hole_active(hole: Entity) -> void:
 	if (active_hole == null):
 		active_hole = hole
@@ -93,8 +134,8 @@ func _on_hole_inactive(_hole: Entity) -> void:
 	_update_debug()
 
 func _on_ghost_active(ghost: Entity) -> void:
-	
 	active_ghost = ghost
+	s_active_ghost_changed.emit(ghost)
 	_update_debug()
 
 func _on_ghost_inactive(ghost: Entity) -> void:
@@ -117,6 +158,7 @@ func _on_ghost_inactive(ghost: Entity) -> void:
 	ghost_grid[grid_position.x][grid_position.y] = active_ghost
 	
 	active_ghost = null
+	s_active_ghost_changed.emit(null)
 	refresh_surrounding_entities()
 	_update_debug()
 	

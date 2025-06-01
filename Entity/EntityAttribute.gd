@@ -28,3 +28,4 @@ func get_attribute_score(target_attribute: EntityAttribute) -> int:
 		if (hate_id == target_attribute.id):
 			score += Global.HATE_POINTS
 	return score
+	
