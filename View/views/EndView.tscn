@@ -1,22 +1,20 @@
-[gd_scene load_steps=8 format=3 uid="uid://rn7og467emk3"]
+[gd_scene load_steps=7 format=3 uid="uid://rn7og467emk3"]
 
 [ext_resource type="PackedScene" uid="uid://doln80c6nuc6l" path="res://View/View.tscn" id="1_ektgr"]
 [ext_resource type="Script" uid="uid://co8r36mu4w7tj" path="res://View/views/EndView.gd" id="2_hjcrj"]
-[ext_resource type="Texture2D" uid="uid://cjh8u4o5rby1i" path="res://assets/background/title-background-alt.png" id="3_34b21"]
-[ext_resource type="Theme" uid="uid://cyej2mw86k5nt" path="res://themes/Heading2.tres" id="4_34b21"]
+[ext_resource type="Texture2D" uid="uid://vbs23pndddn8" path="res://assets/background/end-background.png" id="3_vqxe4"]
 [ext_resource type="PackedScene" uid="uid://cd4pjyj5k6unh" path="res://UI/PrimaryButton.tscn" id="4_lc0ck"]
 [ext_resource type="Theme" uid="uid://bgwjhguo1kbd4" path="res://themes/Body.tres" id="5_6qhbw"]
 [ext_resource type="Theme" uid="uid://bq0xjqlhsrue7" path="res://themes/Heading.tres" id="6_dwcpo"]
 
 [node name="EndView" node_paths=PackedStringArray("score_label") instance=ExtResource("1_ektgr")]
 script = ExtResource("2_hjcrj")
-score_label = NodePath("CenterContainer/MarginContainer/VBoxContainer/Score")
+score_label = NodePath("CenterContainer/MarginContainer/VBoxContainer/VBoxContainer/Score")
 
 [node name="Background" type="TextureRect" parent="." index="0"]
-self_modulate = Color(1, 1, 1, 0.247059)
 offset_right = 40.0
 offset_bottom = 40.0
-texture = ExtResource("3_34b21")
+texture = ExtResource("3_vqxe4")
 
 [node name="CenterContainer" type="CenterContainer" parent="." index="1"]
 custom_minimum_size = Vector2(1920, 1080)
@@ -25,40 +23,28 @@ offset_bottom = 40.0
 
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer" index="0"]
 layout_mode = 2
-theme_override_constants/margin_top = 205
+theme_override_constants/margin_top = 745
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/MarginContainer" index="0"]
+[node name="VBoxContainer" type="HBoxContainer" parent="CenterContainer/MarginContainer" index="0"]
+layout_mode = 2
+theme_override_constants/separation = 160
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer" index="0"]
 layout_mode = 2
 
-[node name="Greeting" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer" index="0"]
-layout_mode = 2
-theme = ExtResource("4_34b21")
-text = "You win!"
-horizontal_alignment = 1
-
-[node name="HSeparator" type="HSeparator" parent="CenterContainer/MarginContainer/VBoxContainer" index="1"]
-modulate = Color(1, 1, 1, 0)
-layout_mode = 2
-theme_override_constants/separation = 85
-
-[node name="YourScoreIs" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer" index="2"]
+[node name="YourScoreIs" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer" index="0"]
 layout_mode = 2
 theme = ExtResource("5_6qhbw")
 text = "Your total score is"
 horizontal_alignment = 1
 
-[node name="Score" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer" index="3"]
+[node name="Score" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer" index="1"]
 layout_mode = 2
 theme = ExtResource("6_dwcpo")
 text = "000000"
 horizontal_alignment = 1
 
-[node name="HSeparator2" type="HSeparator" parent="CenterContainer/MarginContainer/VBoxContainer" index="4"]
-modulate = Color(1, 1, 1, 0)
-layout_mode = 2
-theme_override_constants/separation = 225
-
-[node name="BackButton" parent="CenterContainer/MarginContainer/VBoxContainer" index="5" instance=ExtResource("4_lc0ck")]
+[node name="BackButton" parent="CenterContainer/MarginContainer/VBoxContainer" index="1" instance=ExtResource("4_lc0ck")]
 layout_mode = 2
 text = "Back To Menu"
 

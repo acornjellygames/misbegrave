@@ -12,6 +12,8 @@ const VIEW_TRANSITION_TIME_SEC = 0.5
 const BOARD_CONTAINER_SIZE = Vector2i(1416, 1080)
 const EMOTE_DURATION_SEC = 2.5
 const RESERVE_MARGIN = Vector2(32, 0)
+const DECO_COUNT_MIN = 10
+const DECO_COUNT_MAX = 20
 
 # ______________________________________________________________________________
 
@@ -36,6 +38,25 @@ var BGM = {
 	THEME_LIGHT = preload("res://assets/music/theme-light.mp3"),
 	AMBIENCE = preload("res://assets/music/ambience.mp3")
 }
+
+# ______________________________________________________________________________
+
+var DECOS = [
+	preload("res://assets/adornment/grass-1.png"),
+	preload("res://assets/adornment/grass-2.png"),
+	preload("res://assets/adornment/grass-3.png"),
+	preload("res://assets/adornment/grass-4.png"),
+	preload("res://assets/adornment/grass-5.png")
+]
+
+var HEADSTONES = [
+	preload("res://assets/headstone/headstone-1.png"),
+	preload("res://assets/headstone/headstone-2.png")
+]
+
+# ______________________________________________________________________________
+
+var rng: RandomNumberGenerator
 
 # ______________________________________________________________________________
 
@@ -68,5 +89,7 @@ func play_bgm(stream: AudioStream) -> void:
 # ______________________________________________________________________________
 
 func _ready() -> void:
+	rng = RandomNumberGenerator.new()
+	rng.randomize()
 	bgm_player = AudioStreamPlayer.new()
 	add_child(bgm_player)

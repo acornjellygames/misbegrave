@@ -3,7 +3,6 @@ extends View
 # ______________________________________________________________________________
 
 @export var board: Board
-@export var board_container: Container
 @export var level_label: Label
 
 @export var info: Control
@@ -16,6 +15,8 @@ extends View
 @export var score_label: Label
 @export var scoring_timer: Timer
 @export var primary_button: PrimaryButton
+
+@export var decos: Node
 
 var is_scoring: bool = false
 
@@ -34,6 +35,7 @@ func load_level(level: Level) -> void:
 	board.set_position(interstitial_size / 2)
 	board.load_level(level)
 	level_label.set_text(level.title)
+	generate_decos()
 	
 # ______________________________________________________________________________
 
@@ -49,6 +51,24 @@ func reset() -> void:
 	ghost_attributes_label.set_text("")
 	info.set_visible(true)
 	scoring.set_visible(false)
+	for deco: Sprite2D in decos.get_children():
+		deco.queue_free()
+
+# ______________________________________________________________________________
+	
+func generate_decos() -> void:
+	var deco_count = int(Global.rng.randi_range(Global.DECO_COUNT_MIN, Global.DECO_COUNT_MAX))
+	for i in range(deco_count):
+		var deco_position: Vector2 = Vector2(Global.rng.randf_range(0, 1920), Global.rng.randf_range(0, 1080))
+		var deco_variant = Global.rng.randi_range(0, Global.DECOS.size() - 1)
+		var deco_transparency = Global.rng.randf_range(0, 0.333)
+		var deco = Sprite2D.new()
+		var is_mirrored = Global.rng.randf() > 0.5
+		decos.add_child(deco)
+		deco.set_global_position(deco_position)
+		deco.set_self_modulate(Color(1, 1, 1, deco_transparency))
+		if (is_mirrored): deco.set_scale(Vector2(-1, 1))
+		deco.set_texture(Global.DECOS[deco_variant])
 	
 # ______________________________________________________________________________
 
@@ -73,9 +93,21 @@ func start_scoring() -> void:
 	score_label.set_text(str(State.score))
 	
 	pair.source_entity.show_overhead_text(adding_to_score_text)
+	
+	if (State.pairs.size() == 0 || pair.source_entity != State.pairs.back().source_entity):
+		pair.source_entity.turn_into_headstone()
+		var hole_under_ghost = board.prop_grid[pair.source_entity.grid_position.x][pair.source_entity.grid_position.y]
+		if (hole_under_ghost): hole_under_ghost.set_visible(false)
+	
 	scoring_timer.start()
 	
 func finish_scoring() -> void:
+	for ghost: Entity in board.ghosts.get_children():
+		if (!ghost.is_headstone):
+			ghost.turn_into_headstone()
+			var hole_under_ghost = board.prop_grid[ghost.grid_position.x][ghost.grid_position.y]
+			if (hole_under_ghost): hole_under_ghost.set_visible(false)
+	
 	scoring_timer.stop()
 	State.total_score += State.score
 	pair_label.set_text("Congrats!")

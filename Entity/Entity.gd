@@ -21,6 +21,7 @@ var last_position: Vector2 = Vector2.ZERO
 var is_hovering: bool = false
 var is_dragging: bool = false
 var surrounding_entities: Array[Entity] = []
+var is_headstone: bool = false
 
 @onready var sprites: Node2D = $Sprites
 @onready var debug: Label = $Debug
@@ -120,6 +121,17 @@ func render_emote() -> void:
 	if (emote != null):
 		emote_container.add_child(emote)
 		print(emote.position)
+		
+# ______________________________________________________________________________
+
+func turn_into_headstone() -> void:
+	var headstone_texture = Global.HEADSTONES.pick_random()
+	for sprite: Sprite2D in sprites.get_children():
+		sprite.queue_free()
+	var headstone_sprite = Sprite2D.new()
+	add_child(headstone_sprite)
+	headstone_sprite.set_texture(headstone_texture)
+	is_headstone = true
 	
 # ______________________________________________________________________________
 
