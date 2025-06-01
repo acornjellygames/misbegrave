@@ -25,7 +25,7 @@ func _ready() -> void:
 	
 # ______________________________________________________________________________
 	
-func load_level(level: Level) -> void:	
+func load_level(level: Level) -> void:
 	reset()
 	_load_props(level)
 	_load_ghosts(level)
@@ -95,17 +95,11 @@ func reset() -> void:
 	active_hole = null
 	attribute_pairs = []
 	
-	# THIS IS REALLY STUPID
-	# The ghosts and props get auto freed at some point
-	# So we attach them as a child of the Global node to avoid this
-	# We detach them when we need them again
-	# Idk why this happens and I don't have time to figure it out
 	for node: Node in ghosts.get_children():
-		ghosts.remove_child(node)
-		Global.add_child(node)
+		node.queue_free()
+		
 	for node: Node in props.get_children():
-		props.remove_child(node)
-		Global.add_child(node)
+		node.queue_free()
 	
 # ______________________________________________________________________________
 

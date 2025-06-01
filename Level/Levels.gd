@@ -7,7 +7,7 @@ func hole(x: int, y: int) -> Entity:
 	
 # ______________________________________________________________________________
 
-var TUTORIAL_1 = Level.new("TUTORIAL_1", "First Steps", Vector2i(4, 1), 
+var TUTORIAL_1 = func(): return Level.new("TUTORIAL_1", "First Steps", Vector2i(4, 1), 
 	[
 		hole(0, 0),
 		hole(1, 0),
@@ -30,7 +30,7 @@ var TUTORIAL_1 = Level.new("TUTORIAL_1", "First Steps", Vector2i(4, 1),
 
 # ______________________________________________________________________________
 
-var RI_1 = Level.new("RI_1", "RI_1", Vector2i(3, 1), 
+var RI_1 = func(): return Level.new("RI_1", "RI_1", Vector2i(3, 1), 
 	[
 		hole(0, 0),
 		hole(1, 0),
@@ -53,7 +53,7 @@ var RI_1 = Level.new("RI_1", "RI_1", Vector2i(3, 1),
 
 # ______________________________________________________________________________
 
-var RI_2 = Level.new("RI_2", "RI_2", Vector2i(3, 2), 
+var RI_2 = func(): return Level.new("RI_2", "RI_2", Vector2i(3, 2), 
 	[
 		hole(0, 0),
 		hole(1, 0),
@@ -81,7 +81,7 @@ var RI_2 = Level.new("RI_2", "RI_2", Vector2i(3, 2),
 
 # ______________________________________________________________________________
 
-var RI_3 = Level.new("RI_3", "RI_3", Vector2i(3, 3), 
+var RI_3 = func(): return Level.new("RI_3", "RI_3", Vector2i(3, 3), 
 	[
 		hole(1, 0),
 		hole(0, 1),
@@ -114,7 +114,7 @@ var RI_3 = Level.new("RI_3", "RI_3", Vector2i(3, 3),
 
 # ______________________________________________________________________________
 
-var RI_4 = Level.new("RI_4", "RI_4", Vector2i(3, 3), 
+var RI_4 = func(): return Level.new("RI_4", "RI_4", Vector2i(3, 3), 
 	[
 		hole(1, 0),
 		hole(2, 0),
@@ -152,7 +152,7 @@ var RI_4 = Level.new("RI_4", "RI_4", Vector2i(3, 3),
 
 # ______________________________________________________________________________
 
-var RI_5 = Level.new("RI_5", "RI_5", Vector2i(3, 3), 
+var RI_5 = func(): return Level.new("RI_5", "RI_5", Vector2i(3, 3), 
 	[
 		hole(0, 0),
 		hole(1, 0),
@@ -205,7 +205,7 @@ var RI_5 = Level.new("RI_5", "RI_5", Vector2i(3, 3),
 
 # ______________________________________________________________________________
 
-var TEST = Level.new("TEST", "Test Level", Vector2i(5, 5), 
+var TEST = func(): return Level.new("TEST", "Test Level", Vector2i(5, 5), 
 	[
 		hole(2, 2),
 		hole(2, 1),
@@ -234,7 +234,7 @@ var TEST = Level.new("TEST", "Test Level", Vector2i(5, 5),
 
 # ______________________________________________________________________________
 
-var TEST2 = Level.new("TEST2", "Test Level 2", Vector2i(5, 5), 
+var TEST2 = func(): return Level.new("TEST2", "Test Level 2", Vector2i(5, 5), 
 	[
 		hole(0, 0),
 		hole(1, 1),

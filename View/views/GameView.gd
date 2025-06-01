@@ -23,7 +23,7 @@ var is_scoring: bool = false
 
 func _ready() -> void:
 	reset()
-	load_level(Levels.order.front())
+	load_level(Levels.order.front().call())
 	
 # ______________________________________________________________________________
 	
@@ -123,7 +123,7 @@ func next_level() -> void:
 		return Global.transition_view(Views.END.instantiate())	
 	
 	reset()
-	var new_level = Levels.order[new_level_index]
+	var new_level = Levels.order[new_level_index].call()
 	State.level_index = new_level_index
 	State.level = new_level
 	load_level(new_level)
