@@ -1,21 +1,41 @@
-[gd_scene load_steps=3 format=3 uid="uid://eud5m3ulwr4p"]
+[gd_scene load_steps=5 format=3 uid="uid://eud5m3ulwr4p"]
 
 [ext_resource type="PackedScene" uid="uid://doln80c6nuc6l" path="res://View/View.tscn" id="1_gd6v1"]
 [ext_resource type="Script" uid="uid://dlfvkwmljlmri" path="res://View/views/TitleView.gd" id="2_sk5yf"]
+[ext_resource type="Texture2D" uid="uid://cepyw4ju48wby" path="res://assets/background/title-background.png" id="3_kguce"]
+[ext_resource type="PackedScene" uid="uid://cd4pjyj5k6unh" path="res://UI/PrimaryButton.tscn" id="4_yx87o"]
 
 [node name="TitleView" instance=ExtResource("1_gd6v1")]
 script = ExtResource("2_sk5yf")
 
-[node name="Label" type="Label" parent="." index="0"]
+[node name="Background" type="TextureRect" parent="." index="0"]
 offset_right = 40.0
-offset_bottom = 23.0
-text = "TITLE VIEW"
+offset_bottom = 40.0
+texture = ExtResource("3_kguce")
 
-[node name="Button" type="Button" parent="." index="1"]
-offset_left = 1.0
-offset_top = 31.0
-offset_right = 93.0
-offset_bottom = 62.0
-text = "start game"
+[node name="CenterContainer" type="CenterContainer" parent="Background" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[node name="MarginContainer" type="MarginContainer" parent="Background/CenterContainer" index="0"]
+layout_mode = 2
+theme_override_constants/margin_top = 600
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/CenterContainer/MarginContainer" index="0"]
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="StartButton" parent="Background/CenterContainer/MarginContainer/VBoxContainer" index="0" instance=ExtResource("4_yx87o")]
+layout_mode = 2
+text = "Start Game"
+
+[node name="CreditsButton" parent="Background/CenterContainer/MarginContainer/VBoxContainer" index="1" instance=ExtResource("4_yx87o")]
+layout_mode = 2
+text = "Credits"
+
+[connection signal="pressed" from="Background/CenterContainer/MarginContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="Background/CenterContainer/MarginContainer/VBoxContainer/CreditsButton" to="." method="_on_credits_button_pressed"]

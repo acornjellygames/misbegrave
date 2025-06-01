@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://cd4pjyj5k6unh"]
+
+[ext_resource type="Texture2D" uid="uid://ctsqrfgeh70bh" path="res://assets/ui/button-round.png" id="1_e8fmk"]
+[ext_resource type="Texture2D" uid="uid://j7k4h2bpnr62" path="res://assets/ui/button-round-pressed.png" id="2_a6lm0"]
+[ext_resource type="Script" uid="uid://clld7b0bk3nv1" path="res://UI/PrimaryButton.gd" id="3_ludhk"]
+[ext_resource type="FontFile" uid="uid://cstjtfooff1oe" path="res://assets/font/Baloo2-Medium.ttf" id="3_ydvcq"]
+
+[sub_resource type="Theme" id="Theme_5dn7j"]
+Label/colors/font_color = Color(0, 0, 0, 1)
+Label/colors/font_outline_color = Color(1, 1, 1, 1)
+Label/font_sizes/font_size = 30
+Label/fonts/font = ExtResource("3_ydvcq")
+
+[node name="PrimaryButton" type="TextureButton"]
+texture_normal = ExtResource("1_e8fmk")
+texture_pressed = ExtResource("2_a6lm0")
+stretch_mode = 3
+script = ExtResource("3_ludhk")
+
+[node name="Text" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_5dn7j")
+text = "Lay To Rest"
+horizontal_alignment = 1
+vertical_alignment = 1
