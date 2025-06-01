@@ -1,5 +1,7 @@
 extends Node
 
+var bgm_player: AudioStreamPlayer
+
 # ______________________________________________________________________________
 
 const TILE_SIZE = 200
@@ -29,6 +31,14 @@ enum EntityPartType {
 
 # ______________________________________________________________________________
 
+var BGM = {
+	THEME = preload("res://assets/music/theme.mp3"),
+	THEME_LIGHT = preload("res://assets/music/theme-light.mp3"),
+	AMBIENCE = preload("res://assets/music/ambience.mp3")
+}
+
+# ______________________________________________________________________________
+
 func create_2d_array(dimensions: Vector2i, fill: Variant = null) -> Array[Array]:
 	var array: Array[Array] = []
 	for x in range(dimensions.x):
@@ -46,3 +56,17 @@ func transition_view(new_view: View) -> void:
 	State.view_container.add_child(new_view)
 	new_view.transition_in()
 	if (old_view != null): old_view.transition_out()
+	
+# ______________________________________________________________________________
+
+func play_bgm(stream: AudioStream) -> void:
+	if (stream == bgm_player.get_stream()): return
+	bgm_player.stop()
+	bgm_player.set_stream(stream)
+	bgm_player.play()
+	
+# ______________________________________________________________________________
+
+func _ready() -> void:
+	bgm_player = AudioStreamPlayer.new()
+	add_child(bgm_player)

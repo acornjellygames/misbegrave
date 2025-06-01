@@ -22,6 +22,7 @@ var is_scoring: bool = false
 # ______________________________________________________________________________
 
 func _ready() -> void:
+	Global.play_bgm(Global.BGM.THEME_LIGHT)
 	reset()
 	load_level(Levels.order.front().call())
 	

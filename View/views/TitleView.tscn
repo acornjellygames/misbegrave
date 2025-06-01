@@ -40,15 +40,27 @@ layout_mode = 2
 text = "Credits"
 
 [node name="Copyright" type="Label" parent="." index="1"]
-offset_left = 1494.0
-offset_top = 1035.0
-offset_right = 1926.0
-offset_bottom = 1074.0
+offset_left = 1473.0
+offset_top = 1041.0
+offset_right = 1905.0
+offset_bottom = 1080.0
 theme = ExtResource("5_lfyu2")
 text = "2025 Acorn Jelly Games, for PPGGJJ4"
-horizontal_alignment = 1
+horizontal_alignment = 2
 
-[node name="Splash" type="TextureRect" parent="." index="2"]
+[node name="Version" type="Label" parent="." index="2"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 11.0
+offset_top = 1040.0
+offset_right = 121.0
+offset_bottom = 1079.0
+grow_vertical = 0
+theme = ExtResource("5_lfyu2")
+text = "v0.1"
+
+[node name="Splash" type="TextureRect" parent="." index="3"]
 offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("5_vgg5x")

@@ -8,6 +8,7 @@ extends View
 func _ready() -> void:
 	if (State.has_seen_splash_screen):
 		splash_screen.set_visible(false)
+	Global.play_bgm(Global.BGM.THEME)
 	
 func transition_out_splash_screen() -> void:
 	var tween = create_tween()
