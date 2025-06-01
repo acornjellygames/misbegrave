@@ -60,19 +60,19 @@ var RI_2 = func(): return Level.new("RI_2", "RI_2", Vector2i(3, 2),
 		hole(1, 1),
 		hole(2, 1)
 	],[
-		Entity.create("1", Global.EntityType.GHOST,
+		Entity.create("A", Global.EntityType.GHOST,
 			[ EntityAttributes.FRIENDLY ],
 			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
 		),
-		Entity.create("2", Global.EntityType.GHOST,
+		Entity.create("C", Global.EntityType.GHOST,
 			[ EntityAttributes.SOCIAL ],
 			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
 		),
-		Entity.create("3", Global.EntityType.GHOST,
+		Entity.create("B", Global.EntityType.GHOST,
 			[ EntityAttributes.LOUD ],
 			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
 		),
-		Entity.create("4", Global.EntityType.GHOST,
+		Entity.create("Sarah", Global.EntityType.GHOST,
 			[ EntityAttributes.GRUMPY ],
 			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
 		),
@@ -89,23 +89,23 @@ var RI_3 = func(): return Level.new("RI_3", "RI_3", Vector2i(3, 3),
 		hole(2, 1),
 		hole(1, 2)
 	],[
-		Entity.create("1", Global.EntityType.GHOST,
+		Entity.create("A", Global.EntityType.GHOST,
 			[ EntityAttributes.NERDY ],
 			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
 		),
-		Entity.create("2", Global.EntityType.GHOST,
+		Entity.create("B", Global.EntityType.GHOST,
 			[ EntityAttributes.FLIRTY ],
 			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
 		),
-		Entity.create("3", Global.EntityType.GHOST,
+		Entity.create("C", Global.EntityType.GHOST,
 			[ EntityAttributes.SOCIAL ],
 			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
 		),
-		Entity.create("4", Global.EntityType.GHOST,
+		Entity.create("D", Global.EntityType.GHOST,
 			[ EntityAttributes.READING ],
 			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
 		),
-		Entity.create("5", Global.EntityType.GHOST,
+		Entity.create("E", Global.EntityType.GHOST,
 			[ EntityAttributes.YOUNG ],
 			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
 		),
@@ -123,27 +123,27 @@ var RI_4 = func(): return Level.new("RI_4", "RI_4", Vector2i(3, 3),
 		hole(1, 2),
 		hole(2, 2),
 	],[
-		Entity.create("1", Global.EntityType.GHOST,
+		Entity.create("A", Global.EntityType.GHOST,
 			[ EntityAttributes.NERDY ],
 			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
 		),
-		Entity.create("2", Global.EntityType.GHOST,
+		Entity.create("B", Global.EntityType.GHOST,
 			[ EntityAttributes.GRUMPY ],
 			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
 		),
-		Entity.create("3", Global.EntityType.GHOST,
+		Entity.create("C", Global.EntityType.GHOST,
 			[ EntityAttributes.TRADITIONAL ],
 			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
 		),
-		Entity.create("4", Global.EntityType.GHOST,
+		Entity.create("E", Global.EntityType.GHOST,
 			[ EntityAttributes.LOUD ],
 			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
 		),
-		Entity.create("5", Global.EntityType.GHOST,
+		Entity.create("D", Global.EntityType.GHOST,
 			[ EntityAttributes.SOCIAL ],
 			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
 		),
-		Entity.create("6", Global.EntityType.GHOST,
+		Entity.create("Fable", Global.EntityType.GHOST,
 			[ EntityAttributes.YOUNG ],
 			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
 		)
@@ -164,40 +164,192 @@ var RI_5 = func(): return Level.new("RI_5", "RI_5", Vector2i(3, 3),
 		hole(1, 2),
 		hole(2, 2),
 	],[
-		Entity.create("1", Global.EntityType.GHOST,
+		Entity.create("A", Global.EntityType.GHOST,
 			[ EntityAttributes.NERDY ],
 			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
 		),
-		Entity.create("2", Global.EntityType.GHOST,
+		Entity.create("B", Global.EntityType.GHOST,
 			[ EntityAttributes.GRUMPY ],
 			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
 		),
-		Entity.create("3", Global.EntityType.GHOST,
+		Entity.create("C", Global.EntityType.GHOST,
 			[ EntityAttributes.CRAFTS ],
 			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
 		),
-		Entity.create("4", Global.EntityType.GHOST,
+		Entity.create("D", Global.EntityType.GHOST,
 			[ EntityAttributes.FLIRTY ],
 			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
 		),
-		Entity.create("5", Global.EntityType.GHOST,
+		Entity.create("E", Global.EntityType.GHOST,
 			[ EntityAttributes.READING ],
 			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
 		),
-		Entity.create("6", Global.EntityType.GHOST,
+		Entity.create("F", Global.EntityType.GHOST,
 			[ EntityAttributes.PUSHOVER ],
 			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
 		),
-		Entity.create("7", Global.EntityType.GHOST,
+		Entity.create("G", Global.EntityType.GHOST,
 			[ EntityAttributes.QUIET ],
 			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
 		),
-		Entity.create("8", Global.EntityType.GHOST,
+		Entity.create("H", Global.EntityType.GHOST,
 			[ EntityAttributes.EXTROVERT ],
 			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
 		),
-		Entity.create("9", Global.EntityType.GHOST,
+		Entity.create("I", Global.EntityType.GHOST,
 			[ EntityAttributes.FRIENDLY ],
+			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
+		),
+	]
+)
+
+# ______________________________________________________________________________
+
+var RI_6 = func(): return Level.new("RI_6", "RI_6", Vector2i(3, 1), 
+	[
+		hole(0, 0),
+		hole(2, 0)
+	],[
+		Entity.create("A", Global.EntityType.GHOST,
+			[ EntityAttributes.READING ],
+			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
+		),
+		Entity.create("B", Global.EntityType.GHOST,
+			[ EntityAttributes.EXTROVERT ],
+			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
+		)
+	]
+)
+
+# ______________________________________________________________________________
+
+var RI_7 = func(): return Level.new("RI_7", "RI_7", Vector2i(3, 2), 
+	[
+		hole(0, 0),
+		hole(1, 0),
+		hole(2, 1),
+	],[
+		Entity.create("A", Global.EntityType.GHOST,
+			[ EntityAttributes.SOCIAL, EntityAttributes.MUSIC ],
+			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
+		),
+		Entity.create("B", Global.EntityType.GHOST,
+			[ EntityAttributes.FLIRTY, EntityAttributes.LOUD ],
+			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
+		),
+		Entity.create("C", Global.EntityType.GHOST,
+			[ EntityAttributes.RUDE ],
+			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
+		)
+	]
+)
+
+# ______________________________________________________________________________
+
+var RI_8 = func(): return Level.new("RI_8", "RI_8", Vector2i(3, 4), 
+	[
+		hole(1, 0),
+		hole(0, 1),
+		hole(1, 1),
+		hole(2, 1),
+		hole(1, 2),
+		hole(1, 3)
+	],[
+		Entity.create("A", Global.EntityType.GHOST,
+			[ EntityAttributes.NERDY ],
+			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
+		),
+		Entity.create("B", Global.EntityType.GHOST,
+			[ EntityAttributes.TRADITIONAL, EntityAttributes.RUDE ],
+			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
+		),
+		Entity.create("C", Global.EntityType.GHOST,
+			[ EntityAttributes.QUIET ],
+			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
+		),
+		Entity.create("D", Global.EntityType.GHOST,
+			[ EntityAttributes.GRUMPY, EntityAttributes.ELDERLY ],
+			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
+		),
+		Entity.create("E", Global.EntityType.GHOST,
+			[ EntityAttributes.YOUNG, EntityAttributes.NERDY ],
+			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
+		)
+	]
+)
+
+# ______________________________________________________________________________
+
+var RI_9 = func(): return Level.new("RI_9", "RI_9", Vector2i(4, 4), 
+	[
+		hole(1, 0),
+		hole(2, 0),
+		hole(3, 0),
+		hole(0, 1),
+		hole(1, 2),
+		hole(2, 2),
+		hole(3, 3),
+	],[
+		Entity.create("A", Global.EntityType.GHOST,
+			[ EntityAttributes.EXTROVERT, EntityAttributes.MUSIC ],
+			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
+		),
+		Entity.create("B", Global.EntityType.GHOST,
+			[ EntityAttributes.GRUMPY ],
+			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
+		),
+		Entity.create("C", Global.EntityType.GHOST,
+			[ EntityAttributes.RUDE ],
+			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
+		),
+		Entity.create("D", Global.EntityType.GHOST,
+			[ EntityAttributes.MEDITATING, EntityAttributes.NERDY ],
+			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
+		),
+		Entity.create("E", Global.EntityType.GHOST,
+			[ EntityAttributes.CRAFTS, EntityAttributes.FLIRTY ],
+			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
+		),
+		Entity.create("F", Global.EntityType.GHOST,
+			[ EntityAttributes.PUSHOVER ],
+			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
+		),
+	]
+)
+
+# ______________________________________________________________________________
+
+var RI_10 = func(): return Level.new("RI_10", "RI_10", Vector2i(4, 2), 
+	[
+		hole(1, 0),
+		hole(2, 0),
+		hole(3, 0),
+		hole(0, 1),
+		hole(1, 1),
+		hole(3, 1),
+	],[
+		Entity.create("B", Global.EntityType.GHOST,
+			[ EntityAttributes.SOCIAL, EntityAttributes.NERDY ],
+			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
+		),
+		Entity.create("C", Global.EntityType.GHOST,
+			[ EntityAttributes.YOUNG, EntityAttributes.FRIENDLY ],
+			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
+		),
+		Entity.create("D", Global.EntityType.GHOST,
+			[ EntityAttributes.FLIRTY, EntityAttributes.EXTROVERT ],
+			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
+		),
+		Entity.create("F", Global.EntityType.GHOST,
+			[ EntityAttributes.RUDE, EntityAttributes.LOUD ],
+			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
+		),
+		Entity.create("G", Global.EntityType.GHOST,
+			[ EntityAttributes.QUIET, EntityAttributes.INTROVERT ],
+			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
+		),
+		Entity.create("H", Global.EntityType.GHOST,
+			[ EntityAttributes.READING ],
 			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
 		),
 	]
@@ -270,6 +422,11 @@ var order = [
 	RI_3,
 	RI_4,
 	RI_5,
+	RI_6,
+	RI_7,
+	RI_8,
+	RI_9,
+	RI_10,
 	TEST,
 	TEST2
 ]

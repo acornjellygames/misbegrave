@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://doln80c6nuc6l" path="res://View/View.tscn" id="1_ektgr"]
 [ext_resource type="Script" uid="uid://co8r36mu4w7tj" path="res://View/views/EndView.gd" id="2_hjcrj"]
-[ext_resource type="Texture2D" uid="uid://cepyw4ju48wby" path="res://assets/background/title-background.png" id="3_gvpm7"]
+[ext_resource type="Texture2D" uid="uid://cjh8u4o5rby1i" path="res://assets/background/title-background-alt.png" id="3_34b21"]
 [ext_resource type="Theme" uid="uid://cyej2mw86k5nt" path="res://themes/Heading2.tres" id="4_34b21"]
 [ext_resource type="PackedScene" uid="uid://cd4pjyj5k6unh" path="res://UI/PrimaryButton.tscn" id="4_lc0ck"]
 [ext_resource type="Theme" uid="uid://bgwjhguo1kbd4" path="res://themes/Body.tres" id="5_6qhbw"]
@@ -12,10 +12,11 @@
 script = ExtResource("2_hjcrj")
 score_label = NodePath("CenterContainer/MarginContainer/VBoxContainer/Score")
 
-[node name="TextureRect" type="TextureRect" parent="." index="0"]
+[node name="Background" type="TextureRect" parent="." index="0"]
+self_modulate = Color(1, 1, 1, 0.247059)
 offset_right = 40.0
 offset_bottom = 40.0
-texture = ExtResource("3_gvpm7")
+texture = ExtResource("3_34b21")
 
 [node name="CenterContainer" type="CenterContainer" parent="." index="1"]
 custom_minimum_size = Vector2(1920, 1080)
