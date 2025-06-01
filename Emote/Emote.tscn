@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://bqi6nf6he64u"]
+
+[ext_resource type="Script" uid="uid://b4dsv0l0psyl6" path="res://Emote/Emote.gd" id="1_g7ovi"]
+
+[node name="Emote" type="Node2D"]
+script = ExtResource("1_g7ovi")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.5
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

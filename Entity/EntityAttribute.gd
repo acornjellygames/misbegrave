@@ -24,7 +24,7 @@ func get_attribute_score(target_attribute: EntityAttribute) -> int:
 	for like_id: String in like_ids:
 		if (like_id == target_attribute.id):
 			score += Global.LIKE_POINTS
-	for hate_id: String in like_ids:
+	for hate_id: String in hate_ids:
 		if (hate_id == target_attribute.id):
 			score += Global.HATE_POINTS
 	return score

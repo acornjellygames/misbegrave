@@ -27,5 +27,8 @@ offset_bottom = 23.0
 [node name="InteractionShape" type="CollisionShape2D" parent="InteractionArea"]
 shape = SubResource("CapsuleShape2D_qkwct")
 
+[node name="EmoteContainer" type="Node2D" parent="."]
+position = Vector2(16, -16)
+
 [connection signal="mouse_entered" from="InteractionArea" to="." method="_on_interaction_area_mouse_entered"]
 [connection signal="mouse_exited" from="InteractionArea" to="." method="_on_interaction_area_mouse_exited"]
