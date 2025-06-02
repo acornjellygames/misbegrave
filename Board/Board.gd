@@ -167,7 +167,6 @@ func _on_hole_inactive(_hole: Entity) -> void:
 	_update_debug()
 
 func _on_ghost_active(ghost: Entity) -> void:
-	if (active_ghost != null): return
 	active_ghost = ghost
 	State.last_active_ghost = ghost
 	s_active_ghost_changed.emit(ghost)
