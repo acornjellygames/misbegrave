@@ -16,7 +16,7 @@ Label/colors/font_outline_color = Color(1, 1, 1, 1)
 Label/font_sizes/font_size = 30
 Label/fonts/font = ExtResource("5_n56sg")
 
-[node name="GameView" node_paths=PackedStringArray("board", "level_label", "info", "ghost_name_label", "ghost_attributes_label", "scoring", "pair_label", "adding_to_score_label", "score_label", "scoring_timer", "primary_button", "decos") instance=ExtResource("1_c07vd")]
+[node name="GameView" node_paths=PackedStringArray("board", "level_label", "info", "ghost_name_label", "ghost_attributes_label", "scoring", "pair_label", "adding_to_score_label", "score_label", "scoring_timer", "primary_button", "decos", "sfx_player") instance=ExtResource("1_c07vd")]
 script = ExtResource("2_d0yyp")
 board = NodePath("Board")
 level_label = NodePath("Content/HUDMargin/HUD/Level")
@@ -30,10 +30,14 @@ score_label = NodePath("Content/HUDMargin/HUD/HUDPanel/HUDPanelPadding/Scoring/S
 scoring_timer = NodePath("Content/HUDMargin/HUD/HUDPanel/HUDPanelPadding/Scoring/ScoringTimer")
 primary_button = NodePath("Content/HUDMargin/HUD/PrimaryButton")
 decos = NodePath("Decos")
+sfx_player = NodePath("SFXPlayer")
 
-[node name="Decos" type="Node2D" parent="." index="0"]
+[node name="SFXPlayer" type="AudioStreamPlayer" parent="." index="0"]
+volume_db = -10.0
 
-[node name="Content" type="HBoxContainer" parent="." index="1"]
+[node name="Decos" type="Node2D" parent="." index="1"]
+
+[node name="Content" type="HBoxContainer" parent="." index="2"]
 custom_minimum_size = Vector2(1920, 1080)
 offset_right = 1920.0
 offset_bottom = 1080.0
@@ -137,7 +141,7 @@ wait_time = 0.8
 layout_mode = 2
 sfx = ExtResource("8_jiuqq")
 
-[node name="Board" parent="." index="2" instance=ExtResource("3_o28e4")]
+[node name="Board" parent="." index="3" instance=ExtResource("3_o28e4")]
 
 [connection signal="timeout" from="Content/HUDMargin/HUD/HUDPanel/HUDPanelPadding/Scoring/ScoringTimer" to="." method="_on_scoring_timer_timeout"]
 [connection signal="pressed" from="Content/HUDMargin/HUD/PrimaryButton" to="." method="_on_primary_button_pressed"]

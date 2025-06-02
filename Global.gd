@@ -57,6 +57,9 @@ var BGM = {
 var SFX = {
 	CLICK = preload("res://assets/sfx/click.wav"),
 	DIG = preload("res://assets/sfx/dig.wav"),
+	DING_POSITIVE = preload("res://assets/sfx/ding_final.wav"),
+	DING_NEGATIVE = preload("res://assets/sfx/ding_negative.wav"),
+	DING_FINAL = preload("res://assets/sfx/ding_positive.wav"),
 	Ghost = {
 		A = [ # [HELLO], [SELECT], [GOOD], [BAD]
 			[

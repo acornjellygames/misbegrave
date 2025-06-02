@@ -18,6 +18,8 @@ extends View
 
 @export var decos: Node
 
+@export var sfx_player: AudioStreamPlayer
+
 var is_scoring: bool = false
 
 # ______________________________________________________________________________
@@ -84,8 +86,10 @@ func start_scoring() -> void:
 	if (pair.is_negative):
 		adding_to_score_sign = ""
 		add_points *= Global.HATE_POINTS
+		play_sfx(Global.SFX.DING_NEGATIVE)
 	else:
 		add_points *= Global.LIKE_POINTS
+		play_sfx(Global.SFX.DING_POSITIVE)
 	var adding_to_score_text = adding_to_score_sign + str(add_points)
 	adding_to_score_label.set_text(adding_to_score_text)
 	
@@ -113,13 +117,26 @@ func finish_scoring() -> void:
 	pair_label.set_text("Congrats!")
 	adding_to_score_label.set_text("Final Score")
 	primary_button.set_text("Next Level")
+	play_sfx(Global.SFX.DING_FINAL)
 	
 func _on_scoring_timer_timeout() -> void:
 	if (State.pairs.size() > 0):
 		start_scoring()
 	else:
 		finish_scoring()
+		
+# ______________________________________________________________________________
 
+func play_sfx(stream: AudioStream) -> void:
+	sfx_player.stop()
+	if (sfx_player.get_stream() == stream):
+		sfx_player.set_pitch_scale(sfx_player.get_pitch_scale() + 0.1)
+	else:
+		sfx_player.set_pitch_scale(1)
+	sfx_player.set_stream(stream)
+	
+	sfx_player.play()
+	
 # ______________________________________________________________________________
 
 func _on_active_ghost_changed(ghost: Entity) -> void:
