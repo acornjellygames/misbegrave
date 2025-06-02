@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dqc5cvs700qxx"
+path="res://.godot/imported/Happy ghost.mp3-3f3be47fd6a08df7391775ad8f92dce2.mp3str"
+
+[deps]
+
+source_file="res://assets/sfx/ghost/2/Happy ghost.mp3"
+dest_files=["res://.godot/imported/Happy ghost.mp3-3f3be47fd6a08df7391775ad8f92dce2.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

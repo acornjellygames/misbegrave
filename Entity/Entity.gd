@@ -14,6 +14,7 @@ var type: Global.EntityType
 var attributes: Array[EntityAttribute]
 var parts: Array[EntityPart]
 var grid_position: Vector2i
+var ghost_noises: Array
 
 var parent: Node = null
 var surrounding_score: int = 0
@@ -26,18 +27,20 @@ var is_headstone: bool = false
 @onready var sprites: Node2D = $Sprites
 @onready var debug: Label = $Debug
 @onready var emote_container: Node2D = $EmoteContainer
+@onready var ghost_noise_player: AudioStreamPlayer = $GhostNoisePlayer
 
 # ______________________________________________________________________________
 
 static var EntityScene = load("res://Entity/Entity.tscn")
 
-static func create(_title: String, _type: Global.EntityType, _attributes: Array[EntityAttribute], _parts: Array[EntityPart], _grid_position: Vector2i = Vector2i(-1, -1)) -> Entity:
+static func create(_title: String, _type: Global.EntityType, _attributes: Array[EntityAttribute], _parts: Array[EntityPart], _ghost_noises: Array = Global.SFX.Ghost.A, _grid_position: Vector2i = Vector2i(-1, -1)) -> Entity:
 	var entity = EntityScene.instantiate()
 	entity.title = _title
 	entity.type = _type
 	entity.attributes = _attributes
 	entity.parts = _parts
 	entity.grid_position = _grid_position
+	entity.ghost_noises = _ghost_noises
 	return entity
 	
 # ______________________________________________________________________________
@@ -57,6 +60,7 @@ func _input(event: InputEvent) -> void:
 			is_dragging = true
 			s_start_dragging.emit(self)
 			last_position = get_position()
+			play_noise(ghost_noises[0])
 			_update_debug()
 		elif (event.is_released() && is_dragging):
 			is_dragging = false
@@ -101,6 +105,13 @@ func move_to_grid_position(_grid_position: Vector2i, backup_position: Vector2 = 
 func set_surrounding_entities(entities: Array[Entity]) -> void:
 	surrounding_entities = entities
 	calculate_surrounding_entities_score()
+	if (State.last_active_ghost == self):
+		if (surrounding_score > 0):
+			play_noise(ghost_noises[2])
+		elif (surrounding_score < 0):
+			play_noise(ghost_noises[3])
+		else:
+			play_noise(ghost_noises[1])
 	_update_debug()
 	
 # ______________________________________________________________________________
@@ -138,9 +149,6 @@ func render_emote() -> void:
 	position_tween.play()
 	scale_tween.play()
 	Global.delay(modulate_tween.play, 1.75)
-	
-	
-	
 		
 # ______________________________________________________________________________
 
@@ -241,6 +249,15 @@ func show_overhead_text(text: String) -> void:
 	scale_tween.play()
 	rotation_tween.play()
 	Global.delay(modulate_tween.play, 1.25)
+	
+# ______________________________________________________________________________
+
+func play_noise(noises: Array) -> void:
+	if (type != Global.EntityType.GHOST): return
+	ghost_noise_player.stop()
+	ghost_noise_player.set_stream(noises.pick_random())
+	ghost_noise_player.set_pitch_scale(Global.rng.randf_range(0.9, 1.2))
+	ghost_noise_player.play()
 
 # ______________________________________________________________________________
 

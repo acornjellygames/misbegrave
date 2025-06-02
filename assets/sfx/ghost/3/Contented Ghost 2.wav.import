@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dg8oxne8n0oai"
+path="res://.godot/imported/Contented Ghost 2.wav-b618c71c1e8d09fa880938f6b0a44e88.sample"
+
+[deps]
+
+source_file="res://assets/sfx/ghost/3/Contented Ghost 2.wav"
+dest_files=["res://.godot/imported/Contented Ghost 2.wav-b618c71c1e8d09fa880938f6b0a44e88.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

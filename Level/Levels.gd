@@ -3,7 +3,7 @@ extends Node
 # ______________________________________________________________________________
 
 func hole(x: int, y: int) -> Entity:
-	return Entity.create("Hole", Global.EntityType.HOLE, [EntityAttributes.HOLE], [EntityParts.HOLE], Vector2i(x, y))
+	return Entity.create("Hole", Global.EntityType.HOLE, [EntityAttributes.HOLE], [EntityParts.HOLE], [[],[],[],[]], Vector2i(x, y))
 	
 # ______________________________________________________________________________
 

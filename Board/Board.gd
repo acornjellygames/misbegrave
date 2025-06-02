@@ -103,7 +103,7 @@ func reset() -> void:
 	
 # ______________________________________________________________________________
 
-func refresh_surrounding_entities() -> void:
+func refresh_entities() -> void:
 	for ghost: Entity in ghosts.get_children():
 		if (ghost.grid_position == Vector2i(-1, -1)): continue
 		var surrounding_entities = get_surrounding_entities(ghost.grid_position)
@@ -168,6 +168,7 @@ func _on_hole_inactive(_hole: Entity) -> void:
 
 func _on_ghost_active(ghost: Entity) -> void:
 	active_ghost = ghost
+	State.last_active_ghost = ghost
 	s_active_ghost_changed.emit(ghost)
 	_update_debug()
 
@@ -192,7 +193,7 @@ func _on_ghost_inactive(ghost: Entity) -> void:
 	
 	active_ghost = null
 	s_active_ghost_changed.emit(null)
-	refresh_surrounding_entities()
+	refresh_entities()
 	_update_debug()
 	
 # ______________________________________________________________________________

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://d4fl1rn2dd7aw"
+path="res://.godot/imported/Ghost1 5-Wooooooo.wav-c8381d0b1610036b4b6161c95fb9959d.sample"
+
+[deps]
+
+source_file="res://assets/sfx/ghost/1/Ghost1 5-Wooooooo.wav"
+dest_files=["res://.godot/imported/Ghost1 5-Wooooooo.wav-c8381d0b1610036b4b6161c95fb9959d.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

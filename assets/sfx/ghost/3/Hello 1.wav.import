@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://o28mnn7t0oqt"
+path="res://.godot/imported/Hello 1.wav-f2f662d5fa815d2f1d99dc245668a5c9.sample"
+
+[deps]
+
+source_file="res://assets/sfx/ghost/3/Hello 1.wav"
+dest_files=["res://.godot/imported/Hello 1.wav-f2f662d5fa815d2f1d99dc245668a5c9.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -8,3 +8,4 @@ var score: int = 0
 var total_score: int = 0
 var pairs: Array[EntityAttributePair]
 var has_seen_splash_screen: bool = false
+var last_active_ghost: Entity = null
