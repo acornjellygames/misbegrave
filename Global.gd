@@ -88,6 +88,15 @@ func play_bgm(stream: AudioStream) -> void:
 	
 # ______________________________________________________________________________
 
+func delay(callback: Callable, sec: float) -> void:
+	var timer = Timer.new()
+	add_child(timer)
+	timer.connect("timeout", callback)
+	timer.connect("timeout", timer.queue_free)
+	timer.start(sec)
+
+# ______________________________________________________________________________
+
 func _ready() -> void:
 	rng = RandomNumberGenerator.new()
 	rng.randomize()

@@ -130,7 +130,7 @@ horizontal_alignment = 1
 clip_text = true
 
 [node name="ScoringTimer" type="Timer" parent="Content/HUDMargin/HUD/HUDPanel/HUDPanelPadding/Scoring" index="3"]
-wait_time = 1.5
+wait_time = 0.8
 
 [node name="PrimaryButton" parent="Content/HUDMargin/HUD" index="2" instance=ExtResource("8_5dn7j")]
 layout_mode = 2

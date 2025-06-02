@@ -26,8 +26,6 @@ var is_headstone: bool = false
 @onready var sprites: Node2D = $Sprites
 @onready var debug: Label = $Debug
 @onready var emote_container: Node2D = $EmoteContainer
-@onready var overhead_text: Label = $OverheadText
-@onready var overhead_text_timer: Timer = $OverheadText/OverheadTextTimer
 
 # ______________________________________________________________________________
 
@@ -117,10 +115,32 @@ func render_emote() -> void:
 		emote = Emote.create(preload("res://assets/indicator/love-icon.png"))
 	elif (surrounding_score < 0):
 		emote = Emote.create(preload("res://assets/indicator/angy-icon.png"))
-		
-	if (emote != null):
-		emote_container.add_child(emote)
-		print(emote.position)
+	else: 
+		return
+	
+	emote_container.add_child(emote)
+	
+	var scale_tween = create_tween()
+	emote.set_scale(Vector2(0, 0))
+	scale_tween.tween_property(emote, "scale", Vector2(1, 1), 0.1)
+	scale_tween.set_trans(Tween.TRANS_CUBIC)
+	scale_tween.set_ease(Tween.EASE_IN)
+	
+	var position_tween = create_tween()
+	position_tween.tween_property(emote, "position", emote.get_position() + Vector2(0, -24), 3)
+	
+	var modulate_tween = create_tween()
+	modulate_tween.stop()
+	modulate_tween.tween_property(emote, "modulate", Color(1, 1, 1, 0), .25)
+	modulate_tween.set_trans(Tween.TRANS_QUINT)
+	modulate_tween.set_ease(Tween.EASE_IN)
+	
+	position_tween.play()
+	scale_tween.play()
+	Global.delay(modulate_tween.play, 1.75)
+	
+	
+	
 		
 # ______________________________________________________________________________
 
@@ -185,15 +205,42 @@ func get_attribute_pairs_from_entity(target_entity: Entity) -> Array[EntityAttri
 # ______________________________________________________________________________
 
 func show_overhead_text(text: String) -> void:
-	overhead_text.set_visible(true)
+	var overhead_text = Label.new()
+	add_child(overhead_text)
+	overhead_text.set_theme(preload("res://themes/Heading.tres"))
+	overhead_text.set_horizontal_alignment(HORIZONTAL_ALIGNMENT_CENTER)
+	overhead_text.set_size(Vector2(300, 100))
 	overhead_text.set_text(text)
-	overhead_text_timer.start()
-
-func hide_overhead_text() -> void:
-	overhead_text.set_visible(false)
 	
-func _on_overhead_text_timer_timeout() -> void:
-	hide_overhead_text()
+	var position_tween = create_tween()
+	overhead_text.set_position(Vector2((-overhead_text.get_size().x / 2) + Global.rng.randf_range(-10, 10), (-Global.TILE_SIZE * 0.6)  + Global.rng.randf_range(-10, 10)))
+	overhead_text.set_pivot_offset(overhead_text.get_size() / 2)
+	position_tween.tween_property(overhead_text, "position", overhead_text.get_position() + Vector2(0, Global.rng.randf_range(-36, -72)), 2)
+	
+	var scale_tween = create_tween()
+	overhead_text.set_scale(Vector2(0, 0))
+	scale_tween.tween_property(overhead_text, "scale", Vector2(1, 1) * Global.rng.randf_range(0.9, 1.2), 0.175)
+	scale_tween.set_trans(Tween.TRANS_BOUNCE)
+	scale_tween.set_ease(Tween.EASE_IN)
+	
+	var rotation_tween = create_tween()
+	overhead_text.set_rotation(Global.rng.randf_range(-PI/8, PI/8))
+	rotation_tween.tween_property(overhead_text, "rotation", Global.rng.randf_range(-PI/7, PI/7), 2)
+	rotation_tween.set_trans(Tween.TRANS_BOUNCE)
+	rotation_tween.set_ease(Tween.EASE_IN)
+	
+	var modulate_tween = create_tween()
+	overhead_text.set_modulate(Color(1, 1, 1, 1))
+	modulate_tween.stop()
+	modulate_tween.tween_property(overhead_text, "modulate", Color(1, 1, 1, 0), .25)
+	modulate_tween.tween_callback(func(): overhead_text.queue_free())
+	modulate_tween.set_trans(Tween.TRANS_QUINT)
+	modulate_tween.set_ease(Tween.EASE_IN)
+	
+	position_tween.play()
+	scale_tween.play()
+	rotation_tween.play()
+	Global.delay(modulate_tween.play, 1.25)
 
 # ______________________________________________________________________________
 
