@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cohpa53ix6agv"
+path="res://.godot/imported/Ghost1 4-HappyWoo.wav-bc235c955cb07b3c1c522031af0e8d75.sample"
+
+[deps]
+
+source_file="res://assets/sfx/ghost/1/Ghost1 4-HappyWoo.wav"
+dest_files=["res://.godot/imported/Ghost1 4-HappyWoo.wav-bc235c955cb07b3c1c522031af0e8d75.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

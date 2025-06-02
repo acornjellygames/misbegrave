@@ -25,7 +25,7 @@ func _ready() -> void:
 	
 # ______________________________________________________________________________
 	
-func load_level(level: Level) -> void:	
+func load_level(level: Level) -> void:
 	reset()
 	_load_props(level)
 	_load_ghosts(level)
@@ -95,21 +95,15 @@ func reset() -> void:
 	active_hole = null
 	attribute_pairs = []
 	
-	# THIS IS REALLY STUPID
-	# The ghosts and props get auto freed at some point
-	# So we attach them as a child of the Global node to avoid this
-	# We detach them when we need them again
-	# Idk why this happens and I don't have time to figure it out
 	for node: Node in ghosts.get_children():
-		ghosts.remove_child(node)
-		Global.add_child(node)
+		node.queue_free()
+		
 	for node: Node in props.get_children():
-		props.remove_child(node)
-		Global.add_child(node)
+		node.queue_free()
 	
 # ______________________________________________________________________________
 
-func refresh_surrounding_entities() -> void:
+func refresh_entities() -> void:
 	for ghost: Entity in ghosts.get_children():
 		if (ghost.grid_position == Vector2i(-1, -1)): continue
 		var surrounding_entities = get_surrounding_entities(ghost.grid_position)
@@ -174,6 +168,7 @@ func _on_hole_inactive(_hole: Entity) -> void:
 
 func _on_ghost_active(ghost: Entity) -> void:
 	active_ghost = ghost
+	State.last_active_ghost = ghost
 	s_active_ghost_changed.emit(ghost)
 	_update_debug()
 
@@ -198,7 +193,7 @@ func _on_ghost_inactive(ghost: Entity) -> void:
 	
 	active_ghost = null
 	s_active_ghost_changed.emit(null)
-	refresh_surrounding_entities()
+	refresh_entities()
 	_update_debug()
 	
 # ______________________________________________________________________________

@@ -10,5 +10,6 @@ script = ExtResource("1_dd0lm")
 [node name="Ghosts" type="Node2D" parent="."]
 
 [node name="Debug" type="Label" parent="."]
+visible = false
 offset_right = 40.0
 offset_bottom = 40.0

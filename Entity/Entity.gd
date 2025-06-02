@@ -14,6 +14,7 @@ var type: Global.EntityType
 var attributes: Array[EntityAttribute]
 var parts: Array[EntityPart]
 var grid_position: Vector2i
+var ghost_noises: Array
 
 var parent: Node = null
 var surrounding_score: int = 0
@@ -21,24 +22,25 @@ var last_position: Vector2 = Vector2.ZERO
 var is_hovering: bool = false
 var is_dragging: bool = false
 var surrounding_entities: Array[Entity] = []
+var is_headstone: bool = false
 
 @onready var sprites: Node2D = $Sprites
 @onready var debug: Label = $Debug
 @onready var emote_container: Node2D = $EmoteContainer
-@onready var overhead_text: Label = $OverheadText
-@onready var overhead_text_timer: Timer = $OverheadText/OverheadTextTimer
+@onready var ghost_noise_player: AudioStreamPlayer = $GhostNoisePlayer
 
 # ______________________________________________________________________________
 
 static var EntityScene = load("res://Entity/Entity.tscn")
 
-static func create(_title: String, _type: Global.EntityType, _attributes: Array[EntityAttribute], _parts: Array[EntityPart], _grid_position: Vector2i = Vector2i(-1, -1)) -> Entity:
+static func create(_title: String, _type: Global.EntityType, _attributes: Array[EntityAttribute], _parts: Array[EntityPart], _ghost_noises: Array = Global.SFX.Ghost.A, _grid_position: Vector2i = Vector2i(-1, -1)) -> Entity:
 	var entity = EntityScene.instantiate()
 	entity.title = _title
 	entity.type = _type
 	entity.attributes = _attributes
 	entity.parts = _parts
 	entity.grid_position = _grid_position
+	entity.ghost_noises = _ghost_noises
 	return entity
 	
 # ______________________________________________________________________________
@@ -50,6 +52,9 @@ func _ready() -> void:
 	render()
 	
 func _input(event: InputEvent) -> void:
+	if (State.is_scoring): 
+		return
+		
 	if (type != Global.EntityType.GHOST): 
 		return
 		
@@ -58,6 +63,7 @@ func _input(event: InputEvent) -> void:
 			is_dragging = true
 			s_start_dragging.emit(self)
 			last_position = get_position()
+			play_noise(ghost_noises[0])
 			_update_debug()
 		elif (event.is_released() && is_dragging):
 			is_dragging = false
@@ -102,6 +108,13 @@ func move_to_grid_position(_grid_position: Vector2i, backup_position: Vector2 = 
 func set_surrounding_entities(entities: Array[Entity]) -> void:
 	surrounding_entities = entities
 	calculate_surrounding_entities_score()
+	if (State.last_active_ghost == self):
+		if (surrounding_score > 0):
+			play_noise(ghost_noises[2])
+		elif (surrounding_score < 0):
+			play_noise(ghost_noises[3])
+		else:
+			play_noise(ghost_noises[1])
 	_update_debug()
 	
 # ______________________________________________________________________________
@@ -116,10 +129,40 @@ func render_emote() -> void:
 		emote = Emote.create(preload("res://assets/indicator/love-icon.png"))
 	elif (surrounding_score < 0):
 		emote = Emote.create(preload("res://assets/indicator/angy-icon.png"))
+	else: 
+		return
+	
+	emote_container.add_child(emote)
+	
+	var scale_tween = create_tween()
+	emote.set_scale(Vector2(0, 0))
+	scale_tween.tween_property(emote, "scale", Vector2(1, 1), 0.1)
+	scale_tween.set_trans(Tween.TRANS_CUBIC)
+	scale_tween.set_ease(Tween.EASE_IN)
+	
+	var position_tween = create_tween()
+	position_tween.tween_property(emote, "position", emote.get_position() + Vector2(0, -24), 3)
+	
+	var modulate_tween = create_tween()
+	modulate_tween.stop()
+	modulate_tween.tween_property(emote, "modulate", Color(1, 1, 1, 0), .25)
+	modulate_tween.set_trans(Tween.TRANS_QUINT)
+	modulate_tween.set_ease(Tween.EASE_IN)
+	
+	position_tween.play()
+	scale_tween.play()
+	Global.delay(modulate_tween.play, 1.75)
 		
-	if (emote != null):
-		emote_container.add_child(emote)
-		print(emote.position)
+# ______________________________________________________________________________
+
+func turn_into_headstone() -> void:
+	var headstone_texture = Global.HEADSTONES.pick_random()
+	for sprite: Sprite2D in sprites.get_children():
+		sprite.queue_free()
+	var headstone_sprite = Sprite2D.new()
+	add_child(headstone_sprite)
+	headstone_sprite.set_texture(headstone_texture)
+	is_headstone = true
 	
 # ______________________________________________________________________________
 
@@ -173,15 +216,51 @@ func get_attribute_pairs_from_entity(target_entity: Entity) -> Array[EntityAttri
 # ______________________________________________________________________________
 
 func show_overhead_text(text: String) -> void:
-	overhead_text.set_visible(true)
+	var overhead_text = Label.new()
+	add_child(overhead_text)
+	overhead_text.set_theme(preload("res://themes/Heading.tres"))
+	overhead_text.set_horizontal_alignment(HORIZONTAL_ALIGNMENT_CENTER)
+	overhead_text.set_size(Vector2(300, 100))
 	overhead_text.set_text(text)
-	overhead_text_timer.start()
-
-func hide_overhead_text() -> void:
-	overhead_text.set_visible(false)
 	
-func _on_overhead_text_timer_timeout() -> void:
-	hide_overhead_text()
+	var position_tween = create_tween()
+	overhead_text.set_position(Vector2((-overhead_text.get_size().x / 2) + Global.rng.randf_range(-10, 10), (-Global.TILE_SIZE * 0.6)  + Global.rng.randf_range(-10, 10)))
+	overhead_text.set_pivot_offset(overhead_text.get_size() / 2)
+	position_tween.tween_property(overhead_text, "position", overhead_text.get_position() + Vector2(0, Global.rng.randf_range(-36, -72)), 2)
+	
+	var scale_tween = create_tween()
+	overhead_text.set_scale(Vector2(0, 0))
+	scale_tween.tween_property(overhead_text, "scale", Vector2(1, 1) * Global.rng.randf_range(0.9, 1.2), 0.175)
+	scale_tween.set_trans(Tween.TRANS_BOUNCE)
+	scale_tween.set_ease(Tween.EASE_IN)
+	
+	var rotation_tween = create_tween()
+	overhead_text.set_rotation(Global.rng.randf_range(-PI/8, PI/8))
+	rotation_tween.tween_property(overhead_text, "rotation", Global.rng.randf_range(-PI/7, PI/7), 2)
+	rotation_tween.set_trans(Tween.TRANS_BOUNCE)
+	rotation_tween.set_ease(Tween.EASE_IN)
+	
+	var modulate_tween = create_tween()
+	overhead_text.set_modulate(Color(1, 1, 1, 1))
+	modulate_tween.stop()
+	modulate_tween.tween_property(overhead_text, "modulate", Color(1, 1, 1, 0), .25)
+	modulate_tween.tween_callback(func(): overhead_text.queue_free())
+	modulate_tween.set_trans(Tween.TRANS_QUINT)
+	modulate_tween.set_ease(Tween.EASE_IN)
+	
+	position_tween.play()
+	scale_tween.play()
+	rotation_tween.play()
+	Global.delay(modulate_tween.play, 1.25)
+	
+# ______________________________________________________________________________
+
+func play_noise(noises: Array) -> void:
+	if (type != Global.EntityType.GHOST): return
+	ghost_noise_player.stop()
+	ghost_noise_player.set_stream(noises.pick_random())
+	ghost_noise_player.set_pitch_scale(Global.rng.randf_range(0.9, 1.2))
+	ghost_noise_player.play()
 
 # ______________________________________________________________________________
 
