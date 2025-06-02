@@ -91,7 +91,7 @@ var FRIENDLY = EntityAttribute.new("FRIENDLY", "Friendly", "", [
 # ______________________________________________________________________________
 
 var INTROVERT = EntityAttribute.new("INTROVERT", "Introvert", "", [
-	""
+	"NERDY"
 ], [
 	"EXTROVERT", "SOCIAL", "RUDE"
 ])
@@ -99,7 +99,7 @@ var INTROVERT = EntityAttribute.new("INTROVERT", "Introvert", "", [
 # ______________________________________________________________________________
 
 var EXTROVERT = EntityAttribute.new("EXTROVERT", "Extrovert", "", [
-	"SOCIAL", "MUSIC", "LOUD", "FLIRTY"
+	"SOCIAL", "MUSIC", "LOUD", "FLIRTY", "NERDY"
 ], [
 	"RUDE"
 ])
@@ -107,7 +107,7 @@ var EXTROVERT = EntityAttribute.new("EXTROVERT", "Extrovert", "", [
 # ______________________________________________________________________________
 
 var FLIRTY = EntityAttribute.new("FLIRTY", "Flirty", "", [
-	"SOCIAL"
+	"SOCIAL", "WARM"
 ], [
 	"INTROVERT", "RUDE"
 ])
@@ -123,7 +123,7 @@ var SOCIAL = EntityAttribute.new("SOCIAL", "Social", "", [
 # ______________________________________________________________________________
 
 var ELDERLY = EntityAttribute.new("ELDERLY", "Elderly", "", [
-	"TRADITIONAL", "WARM", "QUIET"
+	"TRADITIONAL", "WARM", "QUIET", "CRAFTS"
 ], [
 	"LOUD", "MUSIC", "RUDE"
 ])
@@ -131,7 +131,7 @@ var ELDERLY = EntityAttribute.new("ELDERLY", "Elderly", "", [
 # ______________________________________________________________________________
 
 var YOUNG = EntityAttribute.new("YOUNG", "Young", "", [
-	""
+	"NERDY"
 ], [
 	"RUDE"
 ])
@@ -163,7 +163,7 @@ var MEDITATING = EntityAttribute.new("MEDITATING", "Meditating", "", [
 # ______________________________________________________________________________
 
 var READING = EntityAttribute.new("READING", "Reading", "", [
-	""
+	"INTROVERT"
 ], [
 	"RUDE"
 ])
