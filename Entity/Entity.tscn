@@ -18,6 +18,7 @@ texture = ExtResource("2_qkwct")
 
 [node name="Debug" type="Label" parent="."]
 visible = false
+modulate = Color(1, 1, 1, 0)
 self_modulate = Color(1, 0, 0, 1)
 offset_right = 40.0
 offset_bottom = 23.0

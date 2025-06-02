@@ -53,7 +53,7 @@ var RI_1 = func(): return Level.new("RI_1", "RI_1", Vector2i(3, 1), 400,
 
 # ______________________________________________________________________________
 
-var RI_2 = func(): return Level.new("RI_2", "RI_2", Vector2i(3, 2), 200,
+var RI_2 = func(): return Level.new("RI_2", "RI_2", Vector2i(3, 2), 700,
 	[
 		hole(0, 0),
 		hole(1, 0),
@@ -81,7 +81,7 @@ var RI_2 = func(): return Level.new("RI_2", "RI_2", Vector2i(3, 2), 200,
 
 # ______________________________________________________________________________
 
-var RI_3 = func(): return Level.new("RI_3", "RI_3", Vector2i(3, 3), 0,
+var RI_3 = func(): return Level.new("RI_3", "RI_3", Vector2i(3, 3), 800,
 	[
 		hole(1, 0),
 		hole(0, 1),
@@ -114,7 +114,7 @@ var RI_3 = func(): return Level.new("RI_3", "RI_3", Vector2i(3, 3), 0,
 
 # ______________________________________________________________________________
 
-var RI_4 = func(): return Level.new("RI_4", "RI_4", Vector2i(3, 3), 0,
+var RI_4 = func(): return Level.new("RI_4", "RI_4", Vector2i(3, 3), 700,
 	[
 		hole(1, 0),
 		hole(2, 0),
@@ -152,7 +152,7 @@ var RI_4 = func(): return Level.new("RI_4", "RI_4", Vector2i(3, 3), 0,
 
 # ______________________________________________________________________________
 
-var RI_5 = func(): return Level.new("RI_5", "RI_5", Vector2i(3, 3), 0,
+var RI_5 = func(): return Level.new("RI_5", "RI_5", Vector2i(3, 3), 2400,
 	[
 		hole(0, 0),
 		hole(1, 0),
@@ -223,7 +223,7 @@ var RI_6 = func(): return Level.new("RI_6", "RI_6", Vector2i(3, 1), 0,
 
 # ______________________________________________________________________________
 
-var RI_7 = func(): return Level.new("RI_7", "RI_7", Vector2i(3, 2), 0,
+var RI_7 = func(): return Level.new("RI_7", "RI_7", Vector2i(3, 2), 200,
 	[
 		hole(0, 0),
 		hole(1, 0),
@@ -246,7 +246,7 @@ var RI_7 = func(): return Level.new("RI_7", "RI_7", Vector2i(3, 2), 0,
 
 # ______________________________________________________________________________
 
-var RI_8 = func(): return Level.new("RI_8", "RI_8", Vector2i(3, 4), 0,
+var RI_8 = func(): return Level.new("RI_8", "RI_8", Vector2i(3, 4), 1000,
 	[
 		hole(1, 0),
 		hole(0, 1),
@@ -280,7 +280,7 @@ var RI_8 = func(): return Level.new("RI_8", "RI_8", Vector2i(3, 4), 0,
 
 # ______________________________________________________________________________
 
-var RI_9 = func(): return Level.new("RI_9", "RI_9", Vector2i(4, 4), 0,
+var RI_9 = func(): return Level.new("RI_9", "RI_9", Vector2i(4, 4), 900,
 	[
 		hole(1, 0),
 		hole(2, 0),
@@ -314,12 +314,16 @@ var RI_9 = func(): return Level.new("RI_9", "RI_9", Vector2i(4, 4), 0,
 			[ EntityAttributes.PUSHOVER ],
 			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
 		),
+		Entity.create("G", Global.EntityType.GHOST,
+			[ EntityAttributes.WARM ],
+			[ EntityParts.BASE_COMMON, EntityParts.FACE_HAPPY ]
+		),
 	]
 )
 
 # ______________________________________________________________________________
 
-var RI_10 = func(): return Level.new("RI_10", "RI_10", Vector2i(4, 2), 0,
+var RI_10 = func(): return Level.new("RI_10", "RI_10", Vector2i(4, 2), 2200,
 	[
 		hole(1, 0),
 		hole(2, 0),
@@ -385,7 +389,7 @@ var RI_11 = func(): return Level.new("RI_11", "RI_11", Vector2i(1, 6), 0,
 
 # ______________________________________________________________________________
 
-var RI_12 = func(): return Level.new("RI_12", "RI_12", Vector2i(3, 3), 0,
+var RI_12 = func(): return Level.new("RI_12", "RI_12", Vector2i(3, 3), 1600,
 	[
 		hole(0, 0),
 		hole(1, 0),
@@ -490,8 +494,8 @@ var order = [
 	RI_6,
 	TUTORIAL_1,
 	RI_1,
-	RI_2,
 	RI_7,
+	RI_2,
 	RI_3,
 	RI_4,
 	RI_5,

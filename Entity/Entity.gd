@@ -52,6 +52,9 @@ func _ready() -> void:
 	render()
 	
 func _input(event: InputEvent) -> void:
+	if (State.is_scoring): 
+		return
+		
 	if (type != Global.EntityType.GHOST): 
 		return
 		

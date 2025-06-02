@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/theme-light.mp3-e06c4b2c7e3a20d996a16dd146cf4
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0
 bpm=0
 beat_count=0

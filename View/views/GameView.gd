@@ -4,6 +4,7 @@ extends View
 
 @export var board: Board
 @export var level_label: Label
+@export var goal_label: Label
 
 @export var info: Control
 @export var ghost_name_label: Label
@@ -20,7 +21,7 @@ extends View
 
 @export var sfx_player: AudioStreamPlayer
 
-var is_scoring: bool = false
+var score_goal: int = 0
 
 # ______________________________________________________________________________
 
@@ -28,6 +29,14 @@ func _ready() -> void:
 	Global.play_bgm(Global.BGM.THEME_LIGHT)
 	reset()
 	load_level(Levels.order.front().call())
+	
+func _input(event: InputEvent) -> void:
+	if (event.is_action_pressed("SKIP_LEVEL")):
+		State.score = -1
+		next_level()
+	elif (event.is_action_pressed("RETRY_LEVEL")):
+		State.score = 0
+		next_level()
 	
 # ______________________________________________________________________________
 	
@@ -38,11 +47,13 @@ func load_level(level: Level) -> void:
 	board.load_level(level)
 	level_label.set_text(level.title)
 	generate_decos()
+	score_goal = level.max_score
+	goal_label.set_text("Goal: " + str(score_goal))
 	
 # ______________________________________________________________________________
 
 func reset() -> void:
-	is_scoring = false
+	State.is_scoring = false
 	State.score = 0
 	State.pairs = []
 	primary_button.set_text("Lay to Rest")
@@ -75,6 +86,9 @@ func generate_decos() -> void:
 # ______________________________________________________________________________
 
 func start_scoring() -> void:
+	primary_button.set_disabled(true)
+	primary_button.set_modulate(Color(1,1,1,0.333))
+	primary_button.set_text("Tallying...")
 	if (State.pairs.size() <= 0): return finish_scoring()
 	var pair: EntityAttributePair = State.pairs.pop_back()
 	var source_attribute: EntityAttribute = EntityAttributes[pair.source_attribute_id]
@@ -106,6 +120,8 @@ func start_scoring() -> void:
 	scoring_timer.start()
 	
 func finish_scoring() -> void:
+	primary_button.set_disabled(false)
+	primary_button.set_modulate(Color(1,1,1,1))
 	for ghost: Entity in board.ghosts.get_children():
 		if (!ghost.is_headstone):
 			ghost.turn_into_headstone()
@@ -113,10 +129,17 @@ func finish_scoring() -> void:
 			if (hole_under_ghost): hole_under_ghost.set_visible(false)
 	
 	scoring_timer.stop()
-	State.total_score += State.score
-	pair_label.set_text("Congrats!")
+	
 	adding_to_score_label.set_text("Final Score")
-	primary_button.set_text("Next Level")
+	score_label.set_text(str(State.score))
+	
+	if (State.score >= score_goal || State.score == -1):
+		pair_label.set_text("The residents\nseem pleased!\nGood job!")
+		primary_button.set_text("Next Level")
+	else:
+		pair_label.set_text("Not quite!")
+		primary_button.set_text("Retry")
+		
 	play_sfx(Global.SFX.DING_FINAL)
 	
 func _on_scoring_timer_timeout() -> void:
@@ -164,11 +187,14 @@ func _on_attribute_pairs_changed(pairs: Array[EntityAttributePair]) -> void:
 # ______________________________________________________________________________
 
 func lock_in() -> void:
-	is_scoring = true
+	State.is_scoring = true
 	board.calculate_attribute_pairs()
 	
 func next_level() -> void:
-	var new_level_index = State.level_index + 1 
+	var new_level_index = State.level_index
+	if (State.score >= score_goal || State.score == -1):
+		State.total_score += State.score
+		new_level_index += 1
 	if (new_level_index >= Levels.order.size()):
 		return Global.transition_view(Views.END.instantiate())	
 	
@@ -179,7 +205,8 @@ func next_level() -> void:
 	load_level(new_level)
 	
 func _on_primary_button_pressed() -> void:
-	if (is_scoring):
+	if (State.is_scoring):
 		next_level()
 	else:
+		State.score = 0
 		lock_in()
